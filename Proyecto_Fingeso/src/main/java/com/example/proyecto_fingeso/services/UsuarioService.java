@@ -8,7 +8,7 @@ import com.example.proyecto_fingeso.entities.Usuario;
 import java.util.*;
 
 @Service
-public class ServiceUsuario {
+public class UsuarioService {
 
     @Autowired
     InterUsuario interUsuario;

@@ -17,6 +17,7 @@ public class Agenda {
     @Column(unique = true, nullable = false)
     private Long idAgenda;
 
+
     @Column(nullable = false)
     private Date diasAgendados;
 
