@@ -16,7 +16,7 @@ public class UsuarioController {
     @Autowired
     UsuarioService serviceUsuario;
 
-    //obtiene todos
+    //obtiene todos los usuarios
     @GetMapping("/")
     public ResponseEntity<List<Usuario>> listCar() {
         List<Usuario> usuario = serviceUsuario.getUsuario();

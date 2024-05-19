@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "corredorDePropiedades")
 @Data
 @NoArgsConstructor
-public class Corredor_de_Propiedades {
+public class Corredor_de_Propiedades extends Usuario{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long idCorredorDePropiedades;
 }

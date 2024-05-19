@@ -8,10 +8,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "administrador")
 @Data
 @NoArgsConstructor
-public class Administrador {
+public class Administrador extends Usuario{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long idAdministrador;
 }

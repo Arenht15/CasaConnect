@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "vivienda")
 @Data
 @NoArgsConstructor
-public class Vivienda {
+public class Vivienda{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private Long idAgenda;
+    private Long idVivienda;
 
     @Column(nullable = false)
     private String tipoVivienda;

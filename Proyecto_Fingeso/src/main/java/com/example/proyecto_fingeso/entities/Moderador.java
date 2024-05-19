@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "moderador")
 @Data
 @NoArgsConstructor
-public class Moderador {
+public class Moderador extends Usuario{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long idModerador;
 }

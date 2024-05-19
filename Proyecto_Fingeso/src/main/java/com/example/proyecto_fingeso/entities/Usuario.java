@@ -20,7 +20,7 @@ public class Usuario {
     private String nombre;
 
     @Column(nullable = false)
-    private String rol;
+    private Integer rol;
 
     @Column(nullable = false)
     private String contraseña;

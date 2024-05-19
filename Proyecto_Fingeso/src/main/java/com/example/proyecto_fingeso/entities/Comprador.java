@@ -9,12 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "comprador")
 @Data
 @NoArgsConstructor
-public class Comprador {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long idComprador;
+public class Comprador extends Usuario{
 
     //No tiene atributos ya que lo hereda de usuario
     //@Column(nullable = false)

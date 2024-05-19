@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "vendedor")
 @Data
 @NoArgsConstructor
-public class Vendedor {
+public class Vendedor extends Usuario{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long idVendedor;
 }
