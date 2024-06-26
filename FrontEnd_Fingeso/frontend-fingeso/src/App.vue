@@ -1,85 +1,68 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <v-app>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <v-navigation-drawer v-model="userStore.drawerOpen" temporary>
+      <v-list>
+        <v-list-item class="drawer-header">
+          <v-list-item-title class="text-h6">
+            Menú
+          </v-list-item-title>
+          <template v-slot:append>
+            <v-btn icon @click="userStore.toggleDrawer">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </template>
+        </v-list-item>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+        <v-divider></v-divider>
 
-  <RouterView />
+        <v-list-item @click="goToHome">
+          <v-list-item-title>Inicio</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="goToFavorites">
+          <v-list-item-title>Favoritos</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="goToProfile">
+          <v-list-item-title>Perfil</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="userStore.isVendor" @click="goToPayments">
+          <v-list-item-title>Pagos</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="logout">
+          <v-list-item-title>Cerrar sesión</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
+<script setup>
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import AppHeader from '@/components/AppHeader.vue'
+
+const router = useRouter()
+const userStore = useUserStore()
+
+const goToHome = () => router.push('/')
+const goToProfile = () => router.push('/profile')
+const goToFavorites = () => router.push('/favorites')
+const goToPayments = () => router.push('/payments')
+const logout = () => {
+  userStore.logout()
+  router.push('/login')
+}
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
 }
 </style>
