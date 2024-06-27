@@ -1,30 +1,30 @@
 <template>
     <v-app-bar :elevation="1">
       <template v-slot:prepend>
-        <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="toggleDrawer" color="secondary"></v-app-bar-nav-icon>
       </template>
 
+      <v-img
+        src="../assets/CasaConnectLogo.png"
+        max-height="40"
+        max-width="40"
+        alt="Casa Connect Logo"
+        class="mr-2"
+      ></v-img>
       <v-app-bar-title class="d-flex align-center">
-        <v-img
-          src="../assets/CasaConnect.jpeg"
-          max-height="40"
-          max-width="40"
-          alt="Casa Connect Logo"
-          class="mr-2"
-        ></v-img>
-        Casa Connect
+        <span class="mr-2">Casa Connect</span>
       </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
       <v-btn icon class="mr-2">
-        <v-icon>mdi-star</v-icon>
+        <v-icon color="secondary">mdi-star</v-icon>
       </v-btn>
 
       <v-menu offset-y>
         <template v-slot:activator="{ props }">
           <v-btn icon v-bind="props">
-            <v-icon>mdi-account</v-icon>
+            <v-icon color="secondary">mdi-account</v-icon>
           </v-btn>
         </template>
         <v-list>
@@ -69,11 +69,9 @@
   </script>
 
   <style scoped>
-  .v-app-bar {
-    background-color: #b9ffea;
+  .v-app-bar-title {
+    color: #4CAF50;
+    font-weight: bold;
   }
 
-  .v-app-bar-title, .v-app-bar-nav-icon {
-    color: black;
-  }
   </style>

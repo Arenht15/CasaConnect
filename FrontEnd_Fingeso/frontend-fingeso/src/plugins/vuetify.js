@@ -20,7 +20,7 @@ export default createVuetify({
         dark: false,
         colors: {
           primary: '#4CAF50',     // Verde principal
-          secondary: '#1E2A38',   // Azul oscuro
+          secondary: '#133e4c', // '#1E2A38',   // Azul oscuro
           accent: '#8BC34A',      // Verde claro complementario
           error: '#FF5252',       // Rojo para errores
           info: '#2196F3',        // Azul para información

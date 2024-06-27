@@ -8,8 +8,8 @@
             Menú
           </v-list-item-title>
           <template v-slot:append>
-            <v-btn icon @click="userStore.toggleDrawer">
-              <v-icon>mdi-close</v-icon>
+            <v-btn icon @click="userStore.toggleDrawer" color="primary">
+              <v-icon color="secondary">mdi-close</v-icon>
             </v-btn>
           </template>
         </v-list-item>
@@ -43,7 +43,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import AppHeader from '@/components/AppHeader.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
