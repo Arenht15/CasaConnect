@@ -24,7 +24,7 @@
           color="secondary"
           x-large
           outlined
-          @click="$router.push('/about')"
+          @click="$router.push('/acercaDe')"
         >
           Acerca de Nosotros
         </v-btn>
