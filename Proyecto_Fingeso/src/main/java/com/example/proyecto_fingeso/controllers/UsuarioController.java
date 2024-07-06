@@ -28,4 +28,10 @@ public class UsuarioController {
         Usuario usuarioNew = serviceUsuario.saveUsuario(usuario);
         return ResponseEntity.ok(usuarioNew);
     }
+
+    @GetMapping("/{email}/{contrasena}")
+    public ResponseEntity<Usuario> getUsuarioByEmailAndContrasena(@PathVariable String email, @PathVariable String contrasena){
+        Usuario usuario = serviceUsuario.getUsuarioByEmailAndContrasena(email, contrasena);
+        return ResponseEntity.ok(usuario);
+    }
 }

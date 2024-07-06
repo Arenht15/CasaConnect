@@ -1,3 +1,4 @@
+
 <template>
   <v-footer app color="primary" dark>
  <v-container>
@@ -22,7 +23,7 @@
 
 <script>
 export default {
-name: 'AcercaDe'
+name: 'AppFooter'
 }
 </script>
 

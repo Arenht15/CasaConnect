@@ -27,4 +27,8 @@ public class UsuarioService {
     public Usuario updateCar(Usuario usuario) {
         return interUsuario.save(usuario);
     }
+
+    public Usuario getUsuarioByEmailAndContrasena(String email, String contrasena){
+        return interUsuario.findByEmailAndContrasena(email, contrasena);
+    }
 }

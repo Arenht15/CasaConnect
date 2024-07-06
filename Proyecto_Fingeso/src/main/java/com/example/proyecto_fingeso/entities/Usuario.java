@@ -23,12 +23,11 @@ public class Usuario {
     private Integer rol;
 
     @Column(nullable = false)
-    private String contraseña;
+    private String contrasena;
 
     @Column(nullable = false)
     private String email;
 
     //@Column(nullable = false)
     //private Chat chat;
-
 }

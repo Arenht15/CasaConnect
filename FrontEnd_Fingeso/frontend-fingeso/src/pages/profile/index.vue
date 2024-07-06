@@ -1,15 +1,14 @@
 <template>
-  <Login />
+  <Profile />
 </template>
 
 <script>
 // Import the component using the correct path
-import Login from '../components/Login.vue';
+import Profile from '../../components/Profile.vue';
 
 export default {
   components: {
-    Login
-  },
-  layout: "empty"
-}
+    Profile
+  }
+};
 </script>

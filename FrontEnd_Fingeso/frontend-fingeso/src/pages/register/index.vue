@@ -1,15 +1,14 @@
 <template>
-  <Login />
+  <Register />
 </template>
 
 <script>
 // Import the component using the correct path
-import Login from '../components/Login.vue';
+import Register from '../../components/Register.vue';
 
 export default {
   components: {
-    Login
-  },
-  layout: "empty"
-}
+    Register
+  }
+};
 </script>
