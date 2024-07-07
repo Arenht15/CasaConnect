@@ -58,6 +58,7 @@ const goToFavorites = () => router.push('/favorites')
 const goToPayments = () => router.push('/payments')
 const logout = () => {
   userStore.logout()
+  userStore.toggleDrawer()
   router.push('/')
 }
 </script>
