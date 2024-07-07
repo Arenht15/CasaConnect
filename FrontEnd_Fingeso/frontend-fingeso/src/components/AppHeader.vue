@@ -1,6 +1,6 @@
 <template>
     <v-app-bar :elevation="1">
-      <template v-slot:prepend>
+      <template v-slot:prepend v-if="userStore.isAuthenticated">
         <v-app-bar-nav-icon @click="toggleDrawer" color="secondary"></v-app-bar-nav-icon>
       </template>
 
@@ -10,18 +10,19 @@
         max-width="40"
         alt="Casa Connect Logo"
         class="mr-2"
+        @click="goToHome"
       ></v-img>
       <v-app-bar-title class="d-flex align-center">
-        <span class="mr-2">Casa Connect</span>
+        <span class="mr-2" @click="goToHome">Casa Connect</span>
       </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon class="mr-2">
+      <v-btn icon class="mr-2" v-if="userStore.isAuthenticated">
         <v-icon color="secondary">mdi-star</v-icon>
       </v-btn>
 
-      <v-menu offset-y>
+      <v-menu offset-y v-if="userStore.isAuthenticated">
         <template v-slot:activator="{ props }">
           <v-btn icon v-bind="props">
             <v-icon color="secondary">mdi-account</v-icon>
@@ -62,9 +63,10 @@
   const goToProfile = () => router.push('/profile')
   const goToFavorites = () => router.push('/favorites')
   const goToPayments = () => router.push('/payments')
+  const goToHome = () => router.push('/')
   const logout = () => {
     userStore.logout()
-    router.push('/login')
+    router.push('/')
   }
   </script>
 

@@ -8,8 +8,20 @@
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
                 <v-toolbar-title>Registrarse</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon @click="$router.push('/')">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
               </v-toolbar>
               <v-card-text>
+                <v-alert
+                  v-if="messageInfo.show"
+                  :type="messageInfo.type"
+                  dismissible
+                  @click:close="messageInfo.show = false"
+                >
+                  {{ messageInfo.text }}
+                </v-alert>
                 <v-form @submit.prevent="handleRegister">
                   <v-text-field
                     name="username"
@@ -22,7 +34,7 @@
                     name="email"
                     label="Correo electrónico"
                     placeholder="ejemplo@ejemplo.com"
-                    type="text"
+                    type="email"
                     v-model="email"
                     :rules="[v => !!v || 'Campo requerido']"
                   ></v-text-field>
@@ -36,13 +48,13 @@
                   ></v-text-field>
                   <v-expansion-panels>
                     <v-expansion-panel>
-                      <v-expansion-panel-header>Tipo de usuario</v-expansion-panel-header>
-                      <v-expansion-panel-content>
+                      <header>Tipo de usuario</header>
+                      <main>
                         <v-radio-group v-model="userType">
                           <v-radio label="Vendedor" value=1></v-radio>
                           <v-radio label="Comprador" value=2></v-radio>
                         </v-radio-group>
-                      </v-expansion-panel-content>
+                      </main>
                     </v-expansion-panel>
                   </v-expansion-panels>
                 </v-form>
@@ -59,48 +71,41 @@
   </v-app>
 </template>
 
-<script>
-import axios from "axios";
-export default {
-  name: 'Register',
-  computed: {
-    isValid() {
-      return this.username && this.email && this.password && this.userType;
-    },
-  },
-  data() {
-    return {
-      username: '',
-      email: '',
-      password: '',
-      userType: '',
-    };
-  },
-  methods: {
-      async handleRegister() {
-        if(!this.isValid){
-          this.errorMessage = "Por favor, rellene todos los campos";
-          return;
-        }
-        const data = {
-          'nombre': this.username,
-          'email': this.email,
-          'contrasena': this.password,
-          'rol': this.userType
-        }
-        console.log(data);
-        try {
-          //VER CONEXIÓN CON AXIOS
-          const res = await axios.post("http://localhost:8080/api/v1/usuario/", data)
-          console.log(res)
-          await this.$router.push("/login");
-        }
-        catch(e) {
-          console.log(e.message)
-        }
-      },
-  },
-};
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const router = useRouter()
+const userStore = useUserStore()
+
+const username = ref('')
+const email = ref('')
+const password = ref('')
+const userType = ref('')
+const messageInfo = ref({ show: false, text: '', type: 'info' })
+
+const isValid = computed(() =>
+  username.value && email.value && password.value && userType.value
+)
+
+const handleRegister = async () => {
+  try {
+    const success = await userStore.register(username.value, email.value, password.value, userType.value)
+    if (success) {
+      showMessage("Registro exitoso", 'success')
+      setTimeout(() => router.push("/login"), 2000) // Redirige después de 2 segundos
+    }
+  } catch (error) {
+    // alert.value = { show: true, type: 'error', message: error.message }
+    showMessage(error.message, 'error')
+  }
+}
+
+const showMessage = (text, type) => {
+  messageInfo.value = { show: true, text, type }
+  setTimeout(() => messageInfo.value = { show: false, text: "", type: "" }, 2000)
+}
 </script>
 
 <style scoped>

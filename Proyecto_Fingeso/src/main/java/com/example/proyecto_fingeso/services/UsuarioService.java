@@ -31,4 +31,8 @@ public class UsuarioService {
     public Usuario getUsuarioByEmailAndContrasena(String email, String contrasena){
         return interUsuario.findByEmailAndContrasena(email, contrasena);
     }
+
+    public Long getUsuarioByUsuarioOrEmail(String usuario, String email){
+        return interUsuario.findByNombreOrEmail(usuario, email);
+    }
 }

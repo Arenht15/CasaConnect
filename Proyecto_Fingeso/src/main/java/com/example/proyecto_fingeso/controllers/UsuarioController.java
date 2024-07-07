@@ -34,4 +34,10 @@ public class UsuarioController {
         Usuario usuario = serviceUsuario.getUsuarioByEmailAndContrasena(email, contrasena);
         return ResponseEntity.ok(usuario);
     }
+
+    @GetMapping("/validate/{usuario}/{email}")
+    public ResponseEntity<Long> getUsuarioByUsuarioOrEmail(@PathVariable String usuario, @PathVariable String email){
+        Long vusuario = serviceUsuario.getUsuarioByUsuarioOrEmail(usuario, email);
+        return ResponseEntity.ok(vusuario);
+    }
 }

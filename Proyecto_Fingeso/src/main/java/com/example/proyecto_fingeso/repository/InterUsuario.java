@@ -12,7 +12,10 @@ public interface InterUsuario extends JpaRepository<Usuario, Long>{
     Usuario findByUsuarioId(@Param("id") Long id);
 
     @Query(value = "SELECT * FROM usuario WHERE usuario.nombre = :nombre", nativeQuery = true)
-    Usuario findByUsuarioNombre(@Param("nombre") Long nombre);
+    Usuario findByUsuarioNombre(@Param("nombre") String nombre);
+
+    @Query(value = "SELECT COUNT(*) as cuantos FROM usuario WHERE usuario.nombre = :nombre OR usuario.email = :email", nativeQuery = true)
+    Long findByNombreOrEmail(@Param("nombre") String nombre, @Param("email") String email);
 
     Usuario findByEmailAndContrasena(String email, String contrasena);
 }

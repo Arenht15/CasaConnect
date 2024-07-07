@@ -1,5 +1,10 @@
 
 <template>
+  <v-container>
+    <v-btn color="primary" @click="$router.push('/')" class="mb-4">
+      <v-icon left>mdi-arrow-left</v-icon>
+      Volver
+    </v-btn>
     <v-img
           src="../assets/CasaConnectLogo.png"
           alt="Casa Connect Logo"
@@ -35,12 +40,12 @@
       <p class="text-center paragraph">Atentamente,</p>
       <p class="text-center paragraph">El equipo de CasaConect</p>
     </div>
+  </v-container>
 </template>
 
 <script>
-export default {
-  name: 'AcercaDe'
-}
+import { useRouter } from 'vue-router'
+const router = useRouter()
 </script>
 
 <style scoped>

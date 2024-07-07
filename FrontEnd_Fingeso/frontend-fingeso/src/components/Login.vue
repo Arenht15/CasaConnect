@@ -8,14 +8,26 @@
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
                 <v-toolbar-title>Iniciar sesión</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon @click="$router.push('/')">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
               </v-toolbar>
               <v-card-text>
+                <v-alert
+                  v-if="messageInfo.show"
+                  :type="messageInfo.type"
+                  dismissible
+                  @click:close="messageInfo.show = false"
+                >
+                  {{ messageInfo.text }}
+                </v-alert>
                 <v-form>
                   <v-text-field
                     name="email"
                     label="Correo electrónico"
                     placeholder="ejemplo@ejemplo.com"
-                    type="text"
+                    type="email"
                     v-model="email"
                     :rules="[v => !!v || 'Campo requerido']"
                   ></v-text-field>
@@ -44,47 +56,39 @@
   </v-app>
 </template>
 
-<script>
-import axios from 'axios';
-export default {
-  name: 'Login',
-  computed : {
-    isValid() {
-      return this.email && this.password;
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const router = useRouter()
+const userStore = useUserStore()
+
+// const username = ref('')
+const email = ref('')
+const password = ref('')
+const messageInfo = ref({ show: false, text: '', type: 'info' })
+
+const isValid = computed(() =>
+  email.value && password.value
+)
+
+const loginHandler = async () => {
+  try {
+    const success = await userStore.login(email.value, password.value)
+    if (success) {
+      router.push('/')
     }
-  },
-  data() {
-    return {
-      username: '',
-      email: '',
-      password: '',
-    };
-  },
-  methods: {
-    loginHandler() {
-      if(!this.isValid){
-        return;
-      }
-      const data = { 'email': this.email, 'contrasena': this.password }
-      console.log("Datos recibidos del formulario: ", data);
-      const correo = this.email;
-      const clave = this.password;
-      axios.get(`http://localhost:8080/api/v1/usuario/${correo}/${clave}`)
-        .then(response => {
-          console.log("Datos recibidos del backend", response.data);  // Aquí puedes manejar la respuesta del servidor
-          if (response.data){
-            this.$router.push("/paginaPrincipal");
-          }
-          else{
-            alert("Error al iniciar sesión, las credenciales ingresadas no existen");
-          }
-        })
-        .catch(error => {
-          console.error('Error al buscar usuario:', error);
-        });
-    }
-  },
-};
+  } catch (error) {
+    // alert.value = { show: true, type: 'error', message: error.message }
+    showMessage(error.message, 'error')
+  }
+}
+
+const showMessage = (text, type) => {
+  messageInfo.value = { show: true, text, type }
+  setTimeout(() => messageInfo.value = { show: false, text: "", type: "" }, 2000)
+}
 </script>
 
 <style scoped>
