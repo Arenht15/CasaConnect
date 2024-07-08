@@ -55,11 +55,13 @@
   </template>
 
   <script setup>
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useUserStore } from '@/stores/user'
   import PropertyCard from '@/components/PropertyCard.vue'
 
   const router = useRouter()
+  const userStore = useUserStore()
 
   const tipoPropiedad = ref('')
   const rangoPrecio = ref([0, 1000000])

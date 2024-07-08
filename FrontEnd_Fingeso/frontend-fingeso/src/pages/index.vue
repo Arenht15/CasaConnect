@@ -53,9 +53,3 @@ const handleMainAction = () => {
   }
 }
 </script>
-
-<style scoped>
-.fill-height {
-  height: calc(100vh - 64px); /* Ajusta esto según la altura de tu AppBar */
-}
-</style>

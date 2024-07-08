@@ -8,3 +8,12 @@
 // @use 'vuetify/settings' with (
 //   $color-pack: false
 // );
+.v-application__wrap {
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    max-width: 100%;
+    min-height: calc(100vh - 64px);
+    position: relative;
+  }
