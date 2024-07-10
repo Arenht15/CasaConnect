@@ -128,9 +128,10 @@ const showMessage = (text, type) => {
   justify-content: center;
   align-items: center;
   height: 100vh;
-}.title{
-   margin-top: 30px;
-   text-align: center;
-   color: #4CAF50;
- }
+}
+.title{
+  margin-top: 30px;
+  text-align: center;
+  color: #4CAF50;
+}
 </style>
