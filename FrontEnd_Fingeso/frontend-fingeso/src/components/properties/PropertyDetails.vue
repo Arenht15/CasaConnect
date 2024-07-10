@@ -110,7 +110,7 @@
   }
 
   const volverAlListado = () => {
-    router.push('/propiedades')
+    router.push('/properties')
   }
 
   const contactarPropietario = () => {

@@ -11,12 +11,13 @@
                 :items="['Casa', 'Departamento', 'Oficina']"
                 label="Tipo de propiedad"
               ></v-select>
-              <v-range-slider color="primary"
+              <v-range-slider
                 v-model="rangoPrecio"
                 :max="1000000"
                 :min="0"
                 :step="10000"
                 label="Rango de precio"
+                color="primary"
               ></v-range-slider>
               <div class="d-flex justify-space-between">
                 <span class="text-caption">{{ formatPrecio(rangoPrecio[0]) }}</span>
@@ -58,7 +59,7 @@
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useUserStore } from '@/stores/user'
-  import PropertyCard from '@/components/PropertyCard.vue'
+  import PropertyCard from '@/components/properties/PropertyCard.vue'
 
   const router = useRouter()
   const userStore = useUserStore()
@@ -96,7 +97,7 @@
 
   const verDetallesPropiedad = (id) => {
     console.log('Ver detalles de la propiedad:', id)
-    router.push(`/propiedades/${id}`)
+    router.push(`/properties/${id}`)
   }
 
   const contactarPropietario = (id) => {

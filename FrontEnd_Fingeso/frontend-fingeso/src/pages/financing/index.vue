@@ -1,8 +1,8 @@
 <template>
-  <Register />
+  <Financing />
 </template>
 
 <script setup>
 // Import the component using the correct path
-import Register from '../../components/auth/RegisterForm.vue';
+import Financing from '../../components/FinancingContent.vue';
 </script>

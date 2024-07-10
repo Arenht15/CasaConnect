@@ -11,7 +11,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import ChatDrawer from '@/components/ChatDrawer.vue'
+import ChatDrawer from '@/components/chat/ChatDrawer.vue'
 
 const showChatDrawer = ref(false)
 

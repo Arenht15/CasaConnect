@@ -2,13 +2,7 @@
   <Login />
 </template>
 
-<script>
+<script setup>
 // Import the component using the correct path
-import Login from '../../components/Login.vue';
-
-export default {
-  components: {
-    Login
-  }
-};
+import Login from '../../components/auth/LoginForm.vue';
 </script>

@@ -17,8 +17,8 @@
         </v-col>
         <v-col cols="12" sm="6" class="text-sm-right mt-4 mt-sm-0">
           <div class="footer-links">
-            <router-link to="/financiamiento" v-if="userStore.isAuthenticated">Financiamiento</router-link>
-            <router-link to="/acercaDe" class="ml-4">Acerca de nosotros</router-link>
+            <router-link to="/financing" v-if="userStore.isAuthenticated">Financiamiento</router-link>
+            <router-link to="/about" class="ml-4">Acerca de nosotros</router-link>
           </div>
         </v-col>
       </v-row>

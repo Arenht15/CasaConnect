@@ -4,7 +4,7 @@
       <h1 class="title">Bienvenido a Casa Connect</h1>
       <v-container fill-height>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
+          <v-col cols="12" sm="10" md="6">
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
                 <v-toolbar-title>Iniciar sesión</v-toolbar-title>
