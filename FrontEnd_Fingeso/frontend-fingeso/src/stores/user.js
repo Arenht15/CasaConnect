@@ -37,7 +37,7 @@ export const useUserStore = defineStore('user', {
         }
       } catch (e) {
         console.log(e.message)
-        throw new Error("Error en la validación")
+        throw new Error(e.message)
       }
 
       const data = {
