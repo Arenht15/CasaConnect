@@ -4,9 +4,9 @@
       <v-col cols="12" sm="8" md="6">
         <h1 class="text-h4 mb-6">Perfil de Usuario</h1>
         <v-card class="pa-6">
-          <div class="text-center mb-6">
-            <v-avatar size="200" class="mb-4">
-              <v-img :src="avatarPreview || 'https://fakeimg.pl/200x200/'" alt="Avatar"></v-img>
+          <div class="text-center mb-2">
+            <v-avatar size="100" class="mb-4">
+              <v-img :src="avatarPreview || 'https://fakeimg.pl/100x100/'" alt="Avatar"></v-img>
             </v-avatar>
             <v-file-input
               v-model="avatarFile"
@@ -18,12 +18,12 @@
           </div>
           <v-form @submit.prevent="updateProfile">
             <v-text-field
-              v-model="profile.username"
+              v-model="profile.userName"
               label="Nombre de usuario"
               required
             ></v-text-field>
             <v-text-field
-              v-model="profile.email"
+              v-model="profile.userEmail"
               label="Correo electrónico"
               type="email"
               required
