@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "corredorDePropiedades")
-@Data
-@NoArgsConstructor
+// @Table(name = "corredorDePropiedades")
+@DiscriminatorValue("corredorDePropiedades")
+// @Data
+// @NoArgsConstructor
 public class Corredor_de_Propiedades extends Usuario{
 
 }

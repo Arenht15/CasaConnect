@@ -1,7 +1,6 @@
 package com.example.proyecto_fingeso.entities;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +8,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "usuario")
 @Data
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "rol", discriminatorType = DiscriminatorType.STRING)
 public class Usuario {
+
+    public Usuario(Usuario usuario) {
+        this.setNombre(usuario.getNombre());
+        this.setEmail(usuario.getEmail());
+        this.setContrasena(usuario.getContrasena());
+        this.setRol(usuario.getRol());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +27,10 @@ public class Usuario {
     @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable = false)
-    private Integer rol;
+    // @Column(nullable = false)
+    // private Integer rol;
+    @Column(name = "rol", insertable = false, updatable = false)
+    private String rol;
 
     @Column(nullable = false)
     private String contrasena;
@@ -30,4 +40,7 @@ public class Usuario {
 
     //@Column(nullable = false)
     //private Chat chat;
+
+    @Column(nullable = true)
+    private String imagenPerfil;
 }

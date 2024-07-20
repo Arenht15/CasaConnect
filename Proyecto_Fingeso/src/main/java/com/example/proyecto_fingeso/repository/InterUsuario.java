@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface InterUsuario extends JpaRepository<Usuario, Long>{
 
-    @Query(value = "SELECT * FROM usuario WHERE usuario.id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM usuario WHERE usuario.id_usuario = :id", nativeQuery = true)
     Usuario findByUsuarioId(@Param("id") Long id);
 
     @Query(value = "SELECT * FROM usuario WHERE usuario.nombre = :nombre", nativeQuery = true)

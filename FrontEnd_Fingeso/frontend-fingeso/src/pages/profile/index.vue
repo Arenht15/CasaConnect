@@ -1,8 +1,8 @@
 <template>
-  <Profile />
+  <DashBoard />
 </template>
 
 <script setup>
 // Import the component using the correct path
-import Profile from '../../components/auth/ProfileForm.vue';
+import DashBoard from '@/components/profile/Dashboard.vue';
 </script>

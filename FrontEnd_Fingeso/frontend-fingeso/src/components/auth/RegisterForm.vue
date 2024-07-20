@@ -51,8 +51,8 @@
                       <header>Tipo de usuario</header>
                       <main>
                         <v-radio-group v-model="userType">
-                          <v-radio label="Vendedor" value=1></v-radio>
-                          <v-radio label="Comprador" value=2></v-radio>
+                          <v-radio label="Vendedor" value="Vendedor"></v-radio>
+                          <v-radio label="Comprador" value="Comprador"></v-radio>
                         </v-radio-group>
                       </main>
                     </v-expansion-panel>

@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "moderador")
-@Data
-@NoArgsConstructor
+// @Table(name = "moderador")
+@DiscriminatorValue("moderador")
+// @Data
+// @NoArgsConstructor
 public class Moderador extends Usuario{
 
 }

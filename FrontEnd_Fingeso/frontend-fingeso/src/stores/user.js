@@ -10,7 +10,8 @@ export const useUserStore = defineStore('user', {
     userId: 0,
     userName: '',
     userEmail: '',
-    userRol: ''
+    userRol: '',
+    userImage: ''
   }),
 
   actions: {
@@ -70,11 +71,12 @@ export const useUserStore = defineStore('user', {
         const response = await axios.get(`http://localhost:8080/api/v1/usuario/${email}/${password}`)
         if (response.data) {
           this.isAuthenticated = true
-          this.userId = response.data.id
+          this.userId = response.data.idUsuario
           this.userName = response.data.nombre
           this.userEmail = response.data.email
           this.userRol = response.data.rol
-          this.isVendor = response.data.rol === 1 // 1 es el rol de vendedor
+          this.isVendor = response.data.rol === "vendedor" // 1 es el rol de vendedor
+          this.userImage = response.data.imagenPerfil
           return true
         } else {
           throw new Error("Credenciales inválidas")
@@ -102,6 +104,13 @@ export const useUserStore = defineStore('user', {
     },
     isUsernameValid(username) {
       return username.length >= 5
+    },
+    subirImagenPerfil(formData, id) {
+      return axios.post(`http://localhost:8080/api/v1/usuario/${id}/imagen`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
     },
   },
 })
