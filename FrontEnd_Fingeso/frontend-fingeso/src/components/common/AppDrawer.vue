@@ -15,16 +15,16 @@
         <v-divider></v-divider>
 
         <v-list-item @click="goToHome">
-          <v-icon>mdi-home</v-icon>
+          <v-icon>mdi-home-outline</v-icon>
           <v-list-item-title class="text-inline">Inicio</v-list-item-title>
         </v-list-item>
         <v-list-item @click="goToFavorites">
-          <v-icon>mdi-heart</v-icon>
+          <v-icon>mdi-heart-outline</v-icon>
           <v-list-item-title class="text-inline">Favoritos</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="goToProfile">
-          <v-icon>mdi-account</v-icon>
-          <v-list-item-title class="text-inline">Perfil</v-list-item-title>
+        <v-list-item @click="goToMessages">
+          <v-icon>mdi-chat-outline</v-icon>
+          <v-list-item-title class="text-inline">Mis mensajes</v-list-item-title>
         </v-list-item>
         <v-list-item v-if="userStore.isVendor" @click="goToPayments">
           <v-icon>mdi-cash</v-icon>
@@ -46,7 +46,7 @@
   const userStore = useUserStore()
 
   const goToHome = () => router.push('/')
-  const goToProfile = () => router.push('/profile')
+  const goToMessages = () => router.push('/messages')
   const goToFavorites = () => router.push('/favorites')
   const goToPayments = () => router.push('/payments')
   const logout = () => {

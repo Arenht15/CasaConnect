@@ -19,11 +19,11 @@
       <v-spacer></v-spacer>
 
       <v-btn icon class="mr-2" v-if="userStore.isAuthenticated">
-        <v-icon color="secondary">mdi-heart</v-icon>
+        <v-icon color="secondary">mdi-bell</v-icon>
         <v-tooltip
         activator="parent"
         location="top"
-        >Favoritos</v-tooltip>
+        >Notificaciones</v-tooltip>
       </v-btn>
 
       <v-menu offset-y v-if="userStore.isAuthenticated">
@@ -37,17 +37,12 @@
           </v-btn>
         </template>
         <v-list>
+          <v-list-item>
+            <v-list-item-title class="text-inline">{{ userStore.userName }}</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="goToProfile">
-            <v-icon>mdi-home</v-icon>
-            <v-list-item-title class="text-inline">Perfil</v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="goToFavorites">
-            <v-icon>mdi-heart</v-icon>
-            <v-list-item-title class="text-inline">Favoritos</v-list-item-title>
-          </v-list-item>
-          <v-list-item v-if="isVendor" @click="goToPayments">
-            <v-icon>mdi-cash</v-icon>
-            <v-list-item-title class="text-inline">Pagos</v-list-item-title>
+            <v-icon>mdi-account-outline</v-icon>
+            <v-list-item-title class="text-inline">Mi cuenta</v-list-item-title>
           </v-list-item>
           <v-list-item @click="logout">
             <v-icon>mdi-logout</v-icon>

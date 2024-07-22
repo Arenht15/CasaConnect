@@ -1,9 +1,12 @@
 package com.example.proyecto_fingeso.entities;
 
+//import org.hibernate.mapping.List;
+
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "vivienda")
@@ -15,6 +18,9 @@ public class Vivienda{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long idVivienda;
+
+    @Column(nullable = false)
+    private String codigoUnico;
 
     @Column(nullable = false)
     private String tipoVivienda;
@@ -37,4 +43,12 @@ public class Vivienda{
     @Column(nullable = false)
     private String descripcion;
 
+    @ElementCollection
+    @CollectionTable(name = "vivienda_fotos", joinColumns = @JoinColumn(name = "id_vivienda"))
+    @Column(name = "url_foto")
+    private List<String> fotos;
+
+    @ManyToOne
+    @JoinColumn(name = "id_vendedor")
+    private Usuario vendedor;
 }

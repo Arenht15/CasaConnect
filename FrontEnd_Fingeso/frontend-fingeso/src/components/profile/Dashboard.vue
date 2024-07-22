@@ -13,8 +13,7 @@
           <ProfileForm />
         </v-window-item>
         <v-window-item value="properties">
-          <h2>Mis Propiedades</h2>
-          <!-- Aquí irá el componente de listado de propiedades -->
+          <VendedorViviendas/>
         </v-window-item>
         <v-window-item value="favorites">
           <h2>Mis Favoritos</h2>
@@ -36,6 +35,7 @@
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import ProfileForm from './ProfileForm.vue'
+import VendedorViviendas from './VendedorViviendas.vue'
 
 const userStore = useUserStore()
 const activeTab = ref('profile')
