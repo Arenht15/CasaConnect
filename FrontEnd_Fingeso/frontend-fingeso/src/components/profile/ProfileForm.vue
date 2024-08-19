@@ -73,6 +73,13 @@ const updateProfile = async () => {
     if (imagenPerfil.value) {
       console.log('Avatar a subir', imagenPerfil.value)
     }
+    const response = await userStore.update(profile.value.userId, profile.value.userName, profile.value.userEmail, imagenPerfil.value)
+    console.log(response)
+    if (response) {
+      userStore.userName = profile.value.userName
+      userStore.userEmail = profile.value.userEmail
+      userStore.userImage = imagenPerfil.value
+    }
   } catch (error) {
     console.error('Error al actualizar perfil', error)
   }

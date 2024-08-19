@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
     },
     async register(username, email, password, type) {
       // Validaciones
-      if (!this.isUsernameValid(email)) {
+      if (!this.isUsernameValid(username)) {
         throw new Error("El nombre de usuario debe tener al menos 5 caracteres.")
       }
       if (!this.isEmailValid(email)) {
@@ -111,6 +111,47 @@ export const useUserStore = defineStore('user', {
           'Content-Type': 'multipart/form-data'
         }
       })
+    },
+    async update(userid, username, useremail, userpicture) {
+      // Validaciones
+      if (!this.isUsernameValid(username)) {
+        throw new Error("El nombre de usuario debe tener al menos 5 caracteres.")
+      }
+      if (!this.isEmailValid(useremail)) {
+        throw new Error("Por favor, ingrese un correo electrónico válido.")
+      }
+
+      // Verifica en BD existencia de usuario o correo
+      // try {
+      //   const res = await axios.get(`http://localhost:8080/api/v1/usuario/validate/${username}/${useremail}`)
+      //   if (res.data && res.data > 0) {
+      //     throw new Error("Nombre de Usuario ya existe, no puede usar ese.")
+      //   }
+      // } catch (e) {
+      //   console.log(e.message)
+      //   throw new Error(e.message)
+      // }
+
+      const data = {
+        'idUsuario': userid,
+        'nombre': username,
+        'email': useremail,
+        'imagenPerfil': userpicture,
+        'contrasena': '',
+        'rol': this.userRol
+      }
+
+      // Guardado en BD
+      try {
+        await axios.post("http://localhost:8080/api/v1/usuario/", data)
+        this.userName = username
+        this.userEmail = useremail
+        this.userImage = userpicture
+        return true
+      } catch (e) {
+        console.log(e.message)
+        throw new Error("Error en el registro")
+      }
     },
   },
 })

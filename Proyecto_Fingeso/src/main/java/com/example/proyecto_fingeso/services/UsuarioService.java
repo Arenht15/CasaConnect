@@ -29,6 +29,15 @@ public class UsuarioService {
     }
 
     public Usuario saveUsuario(Usuario usuario){
+        if (usuario.getIdUsuario() > 0) {
+            Usuario userUpdate = getUsuarioById(usuario.getIdUsuario());
+            userUpdate.setNombre(usuario.getNombre());
+            userUpdate.setEmail(usuario.getEmail());
+            if (!usuario.getImagenPerfil().isEmpty()) {
+                userUpdate.setImagenPerfil(usuario.getImagenPerfil());
+            }
+            return interUsuario.save(userUpdate);
+        }
         // return interUsuario.save(usuario);
         switch (usuario.getRol().toUpperCase()) {
             case "VENDEDOR":
