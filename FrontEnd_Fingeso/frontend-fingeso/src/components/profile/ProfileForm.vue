@@ -2,6 +2,14 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
+        <v-alert
+          v-if="messageInfo.show"
+          :type="messageInfo.type"
+          dismissible
+          @click:close="messageInfo.show = false"
+        >
+          {{ messageInfo.text }}
+        </v-alert>
         <v-card class="pa-6">
           <div class="text-center mb-2">
             <v-avatar size="100" class="mb-4">
@@ -43,6 +51,7 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 const profile = ref({})
 const imagenPerfil = ref(null)
+const messageInfo = ref({ show: false, text: '', type: 'info' })
 
 const avatarPreview = computed(() => {
   if (imagenPerfil.value && typeof imagenPerfil.value === 'string') {
@@ -79,9 +88,11 @@ const updateProfile = async () => {
       userStore.userName = profile.value.userName
       userStore.userEmail = profile.value.userEmail
       userStore.userImage = imagenPerfil.value
+      showMessage('Datos del usuario actualizados', 'success')
     }
   } catch (error) {
     console.error('Error al actualizar perfil', error)
+    showMessage('Error al actualizar el perfil.', 'error')
   }
 }
 
@@ -101,10 +112,17 @@ const subirImagen = async (profile) => {
       const response = await userStore.subirImagenPerfil(formData, profile.userId)
       // profile.value.userImage = response.data
       imagenPerfil.value = response.data
+      // showMessage('Avatar actualizado', 'success')
     } catch (error) {
       console.error('Error al subir la imagen:', error)
+      showMessage('Error al subir la imagen.', 'error')
     }
   }
+}
+
+const showMessage = (text, type) => {
+  messageInfo.value = { show: true, text, type }
+  setTimeout(() => messageInfo.value = { show: false, text: "", type: "" }, 2000)
 }
 
 </script>
