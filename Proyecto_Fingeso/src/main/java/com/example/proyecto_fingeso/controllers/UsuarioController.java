@@ -21,13 +21,13 @@ public class UsuarioController {
 
     //obtiene todos los usuarios
     @GetMapping("/")
-    public ResponseEntity<List<Usuario>> listCar() {
+    public ResponseEntity<List<Usuario>> listUser() {
         List<Usuario> usuario = serviceUsuario.getUsuario();
         return ResponseEntity.ok(usuario);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Usuario> saveCar(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> saveUser(@RequestBody Usuario usuario) {
         Usuario usuarioNew = serviceUsuario.saveUsuario(usuario);
         return ResponseEntity.ok(usuarioNew);
     }

@@ -23,7 +23,7 @@ public class UsuarioService {
     @Autowired
     InterUsuario interUsuario;
 
-    //obtiene todos los autos
+    //obtiene todos los usuarios
     public ArrayList<Usuario> getUsuario(){
         return (ArrayList<Usuario>) interUsuario.findAll();
     }
