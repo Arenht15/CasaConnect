@@ -56,7 +56,8 @@
 </template>
 
   <script setup>
-  import { ref, computed } from 'vue'
+  import axios from 'axios'
+  import { ref, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useUserStore } from '@/stores/user'
   import PropertyCard from '@/components/properties/PropertyCard.vue'
@@ -70,17 +71,20 @@
   const paginaActual = ref(1)
   const totalPaginas = ref(10)
 
-  const propiedades = ref([
-    {
-      id: 1,
-      titulo: 'Casa moderna en el centro',
-      ubicacion: 'Santiago Centro',
-      precio: 200000000,
-      caracteristicas: '3 habitaciones, 2 baños',
-      imagen: 'https://images.adsttc.com/media/images/623c/4fa0/3e4b/3145/3000/001b/newsletter/_d_ambrosio_07._copy.jpg?1648119692'
-    },
-    // ... más propiedades
-  ])
+  const propiedades = ref([])
+
+  const fetchPropiedades = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
+      propiedades.value = response.data
+    } catch (error) {
+      console.error('Error fetching properties:', error)
+    }
+  }
+
+  onMounted(() => {
+    fetchPropiedades()
+  })
 
   const cambiarPagina = (pagina) => {
     console.log('Cambiando a página:', pagina)
