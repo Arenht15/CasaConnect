@@ -53,7 +53,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </template>
+</template>
 
   <script setup>
   import { ref, computed } from 'vue'

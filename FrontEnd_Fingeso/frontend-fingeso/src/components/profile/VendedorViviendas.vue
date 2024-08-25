@@ -1,8 +1,9 @@
 <template>
   <v-container>
     <h1 class="text-h4 mb-4">Mis Viviendas</h1>
-    <v-btn color="primary" @click="openDialog()">Agregar Nueva Vivienda</v-btn>
-
+    <router-link to="/addHouse">
+      <v-btn color="secondary">Agregar Nueva Vivienda</v-btn>
+    </router-link>
     <v-list density="compact" lines="one" slim>
       <v-list-item class="font-weight-bold" density="compact">
         <v-row align="center">
@@ -86,7 +87,6 @@
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 
-const userStore = useUserStore()
 const viviendas = ref([])
 const dialog = ref(false)
 const editMode = ref(false)
