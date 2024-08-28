@@ -37,7 +37,7 @@
                 <v-btn icon @click="openDialog(vivienda)" density="compact">
                   <v-icon size="small" color="primary">mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn icon @click="eliminarVivienda(vivienda.idVivienda)" density="compact">
+                <v-btn icon @click="confirmarEliminacion(vivienda.idVivienda)" density="compact">
                   <v-icon size="small" color="error">mdi-delete</v-icon>
                 </v-btn>
               </v-row>
@@ -85,6 +85,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import { useUserStore } from '@/stores/user'
 
 const viviendas = ref([])
@@ -93,24 +94,17 @@ const editMode = ref(false)
 const viviendaActual = ref({})
 const nuevasFotos = ref([])
 
-onMounted(async () => {
-  // Aquí cargarías las viviendas del vendedor desde el backend
-  // Por ahora, usaremos datos de ejemplo
-  viviendas.value = [
-    {
-      idVivienda: 1,
-      codigoUnico: 'CASA001',
-      tipoVivienda: 'Casa',
-      ubicacion: 'Santiago Centro',
-      numeroDeHabitaciones: 3,
-      precio: 200000000,
-      estado: 1,
-      intencionVenta: 1,
-      descripcion: 'Hermosa casa en el centro',
-      fotos: ['https://fakeimg.pl/100x100/', 'https://ejemplo.com/foto2.jpg']
-    },
-    // ... más viviendas
-  ]
+const fetchViviendas = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
+    viviendas.value = response.data
+  } catch (error) {
+    console.error('Error fetching properties:', error)
+  }
+}
+
+onMounted(() => {
+  fetchViviendas()
 })
 
 const openDialog = (vivienda = null) => {
@@ -133,11 +127,24 @@ const guardarVivienda = async () => {
   }
   dialog.value = false
   // Recargar la lista de viviendas
+  fetchViviendas()
 }
 
 const eliminarVivienda = async (id) => {
   // Aquí implementarías la lógica para eliminar la vivienda en el backend
-  viviendas.value = viviendas.value.filter(v => v.idVivienda !== id)
+  try {
+    await axios.delete(`http://localhost:8080/api/v1/vivienda/validate/${id}/`)
+    viviendas.value = viviendas.value.filter(v => v.idVivienda !== id)
+  } catch (error) {
+    console.error('Error deleting property:', error)
+  }
+}
+
+const confirmarEliminacion = (id) => {
+  const confirmacion = confirm('¿Estás seguro de que quieres eliminar esta vivienda?');
+  if (confirmacion) {
+     eliminarVivienda(id);
+  }
 }
 
 const eliminarFoto = (index) => {

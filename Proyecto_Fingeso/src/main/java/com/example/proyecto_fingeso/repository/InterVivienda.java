@@ -13,5 +13,4 @@ public interface InterVivienda extends JpaRepository<Vivienda, Long> {
 
     @Query(value = "SELECT * FROM vivienda WHERE vivienda.codigo_unico = :codigo", nativeQuery = true)
     Vivienda findViviendaByCodigo(@Param("codigo") String codigo);
-
 }

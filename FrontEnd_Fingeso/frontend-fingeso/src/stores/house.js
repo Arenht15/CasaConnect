@@ -47,9 +47,8 @@ export const useHouseStore = defineStore('house', {
       }
 
       // Registro/Guardado en BD
-// Registro/Guardado en BD
       try {
-        console.log("Datos enviados:", data); // Imprime los datos en la consola
+        console.log("Datos enviados:", data);
         await axios.post("http://localhost:8080/api/v1/vivienda/", data);
         return true;
       } catch (e) {

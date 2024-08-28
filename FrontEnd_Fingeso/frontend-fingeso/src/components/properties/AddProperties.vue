@@ -80,6 +80,18 @@
                         </v-radio-group>
                       </main>
                     </v-expansion-panel>
+                    <v-expansion-panel>
+                      <header>Agregar Fotos</header>
+                      <main>
+                        <v-file-input
+                          v-model="housePhotos"
+                          label="Subir Fotos"
+                          multiple
+                          accept="image/*"
+                          prepend-icon="mdi-camera"
+                        ></v-file-input>
+                      </main>
+                    </v-expansion-panel>
                   </v-expansion-panels>
                 </v-form>
               </v-card-text>
@@ -94,73 +106,72 @@
     </v-main>
   </v-app>
 </template>
+
 <script setup>
-  import { ref, computed } from 'vue'
-  import { useRouter } from 'vue-router'
-  import { useHouseStore } from '@/stores/house'
-  
-  const router = useRouter()
-  const houseStore = useHouseStore()
-  
-  const housecode = ref('')
-  const ubicacion = ref('')
-  const habitation = ref('')
-  const price = ref('')
-  const state = ref('')
-  const description = ref('')
-  const houseType = ref('')
-  const houseIntention = ref('')
-  const housePhotos = ref([])
-  const messageInfo = ref({ show: false, text: '', type: 'info' })
-  
-  const isValid = computed(() =>
-    housecode.value && ubicacion.value && habitation.value && price.value && state.value && description.value
-  )
-  
-  const handleRegister = async () => {
-    try {
-      const success = await houseStore.register(housecode.value, ubicacion.value, habitation.value, price.value, state.value, description.value, houseType.value, houseIntention.value, housePhotos.value)
-      if (success) {
-        showMessage("Registro exitoso", 'success')
-        setTimeout(() => router.push("/properties"), 2000) // Redirige después de 2 segundos
-      }
-    } catch (error) {
-      // alert.value = { show: true, type: 'error', message: error.message }
-      showMessage(error.message, 'error')
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useHouseStore } from '@/stores/house'
+
+const router = useRouter()
+const houseStore = useHouseStore()
+
+const housecode = ref('')
+const ubicacion = ref('')
+const habitation = ref('')
+const price = ref('')
+const state = ref('')
+const description = ref('')
+const houseType = ref('')
+const houseIntention = ref('')
+const housePhotos = ref([])
+const messageInfo = ref({ show: false, text: '', type: 'info' })
+
+const isValid = computed(() =>
+  housecode.value && ubicacion.value && habitation.value && price.value && state.value && description.value
+)
+
+const handleRegister = async () => {
+  try {
+    const success = await houseStore.register(housecode.value, ubicacion.value, habitation.value, price.value, state.value, description.value, houseType.value, houseIntention.value, housePhotos.value)
+    if (success) {
+      showMessage("Registro exitoso", 'success')
+      setTimeout(() => router.push("/properties"), 2000) // Redirige después de 2 segundos
     }
+  } catch (error) {
+    showMessage(error.message, 'error')
   }
-  
-  const showMessage = (text, type) => {
-    messageInfo.value = { show: true, text, type }
-    setTimeout(() => messageInfo.value = { show: false, text: "", type: "" }, 2000)
-  }
-  </script>
-  
-  <style scoped>
-  .register {
-    width: 10000px;
-    margin: 0 auto;
-  }
-  .input-group {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .input-group label {
-    margin-right: 10px;
-  }
-  
-  #inspire{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .title{
-    margin-top: 30px;
-    text-align: center;
-    color: #4CAF50;
-  }
-  </style>
-  
+}
+
+const showMessage = (text, type) => {
+  messageInfo.value = { show: true, text, type }
+  setTimeout(() => messageInfo.value = { show: false, text: "", type: "" }, 2000)
+}
+</script>
+
+<style scoped>
+.register {
+  width: 10000px;
+  margin: 0 auto;
+}
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.input-group label {
+  margin-right: 10px;
+}
+
+#inspire {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.title {
+  margin-top: 30px;
+  text-align: center;
+  color: #4CAF50;
+}
+</style>

@@ -36,4 +36,10 @@ public class ViviendaController {
         Vivienda vivienda = serviceVivienda.getViviendaByCodigo(codigo);
         return ResponseEntity.ok(vivienda);
     }
+
+    @DeleteMapping("/validate/{id}/")
+    public ResponseEntity<Boolean> deleteViviendaById(@PathVariable Long id) throws Exception {
+        var isDeleted = serviceVivienda.deleteVivienda(id);
+        return ResponseEntity.noContent().build();
+    }
 }

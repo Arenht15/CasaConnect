@@ -30,5 +30,13 @@ public class ViviendaService {
 
     public Vivienda getViviendaByCodigo(String codigo){return interVivienda.findViviendaByCodigo(codigo);}
 
+    public boolean deleteVivienda(Long id) throws Exception {
+        try{
+            interVivienda.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
 
+    }
 }
