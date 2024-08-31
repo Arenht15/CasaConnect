@@ -25,8 +25,8 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-row justify="center" class="mt-6">
-          <v-col cols="12" md="10" lg="8" class="d-flex justify-center">
+        <v-row justify="center" class="mt-6" v-if="userStore.isAuthenticated">
+          <v-col cols="12" md="5" lg="4" class="d-flex justify-center">
             <div class="info-box">
               <v-img
                 src="../assets/Arriendos1.jpg"
@@ -44,7 +44,7 @@
               </v-btn>
             </div>
           </v-col>
-          <v-col cols="12" md="10" lg="8" class="d-flex justify-center">
+          <v-col cols="12" md="5" lg="4" class="d-flex justify-center">
             <div class="info-box">
               <v-img
                 src="../assets/Grace-scaled.jpg"
@@ -88,7 +88,7 @@ const handleMainAction = () => {
 <style scoped>
 .info-box {
   border: 1px solid #ccc;
-  padding: 32px; /* Aumentar el padding para agrandar las cajas */
+  padding: 10px; /* Aumentar el padding para agrandar las cajas */
   border-radius: 8px;
   text-align: center;
   width: 100%;

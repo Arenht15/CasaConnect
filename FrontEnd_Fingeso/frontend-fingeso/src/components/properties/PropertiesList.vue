@@ -6,10 +6,8 @@
         <v-card>
           <v-card-title>Filtros</v-card-title>
           <v-card-text>
-            <v-btn color="primary" @click="ordenarPorPrecioMayoraMenor">Ordenar de mayor a menor</v-btn>
-            <v-btn color="primary" @click="ordenarPorPrecioMenoraMayor">Ordenar de menor a mayor</v-btn>
-            <v-btn color="primary" @click="ordenarPorPrecio()">Ordenar de mayor a menor</v-btn>
-            <v-btn color="primary" @click="ordenarPorPrecio()">Ordenar de menor a mayor</v-btn>
+            <v-btn color="primary" @click="ordenarPorPrecioMayorMenor()">Ordenar de mayor a menor</v-btn>
+            <v-btn color="primary" @click="ordenarPorPrecioMenorMayor()">Ordenar de menor a mayor</v-btn>
             <v-select
               v-model="tipoPropiedad"
               :items="['Casa', 'Departamento', 'Oficina']"
@@ -113,17 +111,18 @@ const contactarPropietario = (id) => {
   // Aquí iría la lógica para mostrar un formulario de contacto o similar
 }
 
-const ordenarPorPrecioMayoraMenor = () => {
-  propiedades.value.sort((a, b) => b.precio - a.precio)
-}
-
-const ordenarPorPrecioMenoraMayor = () => {
-  propiedades.value.sort((a, b) => a.precio - b.precio)
-}
-
-const ordenarPorPrecio = async () => {
+const ordenarPorPrecioMayorMenor = async () => {
   try {
     const response = await axios.get(`http://localhost:8080/api/v1/vivienda/ordenar/precio/MayoraMenor`)
+    propiedades.value = response.data
+  } catch (error) {
+    console.error('Error ordenando propiedades:', error)
+  }
+}
+
+const ordenarPorPrecioMenorMayor = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/v1/vivienda/ordenar/precio/MenoraMayor`)
     propiedades.value = response.data
   } catch (error) {
     console.error('Error ordenando propiedades:', error)

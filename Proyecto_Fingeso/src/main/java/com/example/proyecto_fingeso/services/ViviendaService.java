@@ -55,4 +55,17 @@ public class ViviendaService {
         // Retorna la lista ordenada como ArrayList
         return new ArrayList<>(viviendasOrdenadas);
     }
+
+
+    public ArrayList<Vivienda> getViviendaOrderMenorMayor() {
+
+        List<Vivienda> viviendas = interVivienda.findAll();
+        
+        List<Vivienda> viviendasOrdenadas = viviendas.stream()
+                .sorted(Comparator.comparingDouble(Vivienda::getPrecio))
+                .collect(Collectors.toList());
+
+        return new ArrayList<>(viviendasOrdenadas);
+    }
+
 }

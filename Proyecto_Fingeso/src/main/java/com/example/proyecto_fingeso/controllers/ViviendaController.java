@@ -48,4 +48,10 @@ public class ViviendaController {
         List<Vivienda> vivienda = serviceVivienda.getViviendaOrder();
         return ResponseEntity.ok(vivienda);
     }
+
+    @GetMapping("/ordenar/precio/MenoraMayor")
+    public ResponseEntity<List<Vivienda>> listHouseOrderMenorMayor() {
+        List<Vivienda> vivienda = serviceVivienda.getViviendaOrderMenorMayor();
+        return ResponseEntity.ok(vivienda);
+    }
 }
