@@ -10,6 +10,7 @@ import com.example.proyecto_fingeso.entities.Vivienda;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -38,5 +39,20 @@ public class ViviendaService {
             throw new Exception(e.getMessage());
         }
 
+    }
+
+
+    // Método para obtener las viviendas ordenadas por precio de mayor a menor
+    public ArrayList<Vivienda> getViviendaOrder() {
+        // Obtiene todas las viviendas desde la base de datos
+        List<Vivienda> viviendas = interVivienda.findAll();
+
+        // Ordena las viviendas por precio de mayor a menor
+        List<Vivienda> viviendasOrdenadas = viviendas.stream()
+                .sorted(Comparator.comparingDouble(Vivienda::getPrecio).reversed())
+                .collect(Collectors.toList());
+
+        // Retorna la lista ordenada como ArrayList
+        return new ArrayList<>(viviendasOrdenadas);
     }
 }

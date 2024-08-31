@@ -42,4 +42,10 @@ public class ViviendaController {
         var isDeleted = serviceVivienda.deleteVivienda(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/ordenar/precio/MayoraMenor")
+    public ResponseEntity<List<Vivienda>> listHouseOrder() {
+        List<Vivienda> vivienda = serviceVivienda.getViviendaOrder();
+        return ResponseEntity.ok(vivienda);
+    }
 }

@@ -97,7 +97,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="handleRegister" :disabled="!isValid">Registrarse</v-btn>
+                <v-btn color="primary" @click="handleRegister" :disabled="!isValid">Añadir</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
