@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import com.example.proyecto_fingeso.entities.Chat;
 import com.example.proyecto_fingeso.entities.Usuario;
 import com.example.proyecto_fingeso.repository.InterChat;
+import com.example.proyecto_fingeso.repository.InterUsuario;
 
 @Service
 public class ChatService {
     @Autowired
     InterChat interChat;
+    InterUsuario interUsuario;
 
     //obtiene todos los autos
     public ArrayList<Chat> getChatByReceptor(Usuario usuario){
@@ -24,6 +26,7 @@ public class ChatService {
     }
 
     public Chat saveChat(Chat chat) {
+        Usuario emisor = interUsuario.findByUsuarioId(chat.getEmisor().getIdUsuario());
         return (Chat) interChat.save(chat);
     }
 }

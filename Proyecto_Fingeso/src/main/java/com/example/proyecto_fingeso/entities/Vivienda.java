@@ -32,6 +32,12 @@ public class Vivienda{
     private int numeroDeHabitaciones;
 
     @Column(nullable = false)
+    private int numeroDeBanos;
+
+    @Column(nullable = false)
+    private int metrosCuadrados;
+
+    @Column(nullable = false)
     private int precio;
 
     @Column(nullable = false)
@@ -39,6 +45,9 @@ public class Vivienda{
 
     @Column(nullable = false)
     private int intencionVenta;
+
+    @Column(nullable = false)
+    private String titulo;
 
     @Column(nullable = false)
     private String descripcion;

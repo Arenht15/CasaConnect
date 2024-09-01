@@ -21,15 +21,15 @@ public class Chat {
     private Long idChat;
 
     @ManyToOne
-    @JoinColumn(name = "id_emisor")
+    // @JoinColumn(name = "id_emisor")
     private Usuario emisor;
 
     @ManyToOne
-    @JoinColumn(name = "id_receptor")
+    // @JoinColumn(name = "id_receptor")
     private Usuario receptor;
 
     @ManyToOne
-    @JoinColumn(name = "id_vinienda")
+    // @JoinColumn(name = "id_vinienda")
     private Vivienda vivienda;
 
     @Column(nullable = false)

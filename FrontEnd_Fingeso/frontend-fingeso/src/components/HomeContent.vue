@@ -40,7 +40,7 @@
                 color="primary"
                 @click="$router.push('/properties')"
               >
-                Revisar arriendos
+                Arriendos
               </v-btn>
             </div>
           </v-col>
@@ -58,7 +58,7 @@
                 color="primary"
                 @click="$router.push('/properties')"
               >
-                Revisar viviendas
+                Ventas
               </v-btn>
             </div>
           </v-col>

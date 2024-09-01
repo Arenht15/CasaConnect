@@ -3,11 +3,13 @@ package com.example.proyecto_fingeso.controllers;
 import com.example.proyecto_fingeso.entities.Vivienda;
 import com.example.proyecto_fingeso.services.ViviendaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
+import java.io.*;
 
 @RestController
 @RequestMapping("/api/v1/vivienda")
@@ -54,4 +56,15 @@ public class ViviendaController {
         List<Vivienda> vivienda = serviceVivienda.getViviendaOrderMenorMayor();
         return ResponseEntity.ok(vivienda);
     }
+
+    @PostMapping("/{id}/imagen")
+    public ResponseEntity<String> subirImagen(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            String nombreArchivo = serviceVivienda.guardarImagen(id, file);
+            return ResponseEntity.ok(nombreArchivo);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al subir la imagen");
+        }
+    }
+
 }

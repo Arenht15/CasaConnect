@@ -38,6 +38,7 @@
                     type="password"
                     v-model="password"
                     :rules="[v => !!v || 'Campo requerido']"
+                    @keyup.enter="loginHandler"
                   ></v-text-field>
                 </v-form>
               </v-card-text>

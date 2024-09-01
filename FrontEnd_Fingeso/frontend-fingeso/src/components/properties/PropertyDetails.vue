@@ -6,11 +6,11 @@
       </v-btn>
 
       <v-card v-if="propiedad">
-        <v-carousel v-if="propiedad.imagenes && propiedad.imagenes.length > 0" height="400">
+        <v-carousel v-if="propiedad.fotos && propiedad.fotos.length > 0" height="400">
           <v-carousel-item
-            v-for="(imagen, i) in propiedad.imagenes"
+            v-for="(imagen, i) in propiedad.fotos"
             :key="i"
-            :src="imagen"
+            :src="preview(imagen)"
             cover
           ></v-carousel-item>
         </v-carousel>
@@ -36,16 +36,14 @@
               <v-card outlined>
                 <v-card-title>Contacto</v-card-title>
                 <v-card-text>
-                  <p><strong>Nombre:</strong> {{ propiedad.contacto.nombre }}</p>
-                  <p><strong>Teléfono:</strong> {{ propiedad.contacto.telefono }}</p>
-                  <p><strong>Email:</strong> {{ propiedad.contacto.email }}</p>
+                  <p><strong>Nombre:</strong> {{ propiedad.vendedor.nombre }}</p>
                   <v-btn block color="primary" class="mt-4" @click="contactarPropietario">
                     Contactar propietario
                   </v-btn>
                 </v-card-text>
               </v-card>
 
-              <v-card outlined class="mt-4">
+              <!-- <v-card outlined class="mt-4">
                 <v-card-title>Acción</v-card-title>
                 <v-card-text>
                   <v-btn block color="success" class="mb-2" @click="realizarAccion('comprar')" v-if="propiedad.venta">
@@ -55,7 +53,7 @@
                     Alquilar
                   </v-btn>
                 </v-card-text>
-              </v-card>
+              </v-card> -->
             </v-col>
           </v-row>
         </v-card-text>
@@ -68,15 +66,44 @@
   </template>
 
   <script setup>
-  import { ref, onMounted } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
+  import axios from 'axios'
 
-  const route = useRoute()
+  import { ref, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+
   const router = useRouter()
 
   const propiedad = ref(null)
+  const propiedades = ref([])
+
+  const preview = (image) => {
+    if (image && typeof image === 'string') {
+      return `http://localhost:8080/uploads/${image}`
+    }
+  }
+
+  const fetchPropiedades = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
+      propiedades.value = response.data
+      propiedad.value = propiedades.value[0]
+      propiedad.value.caracteristicas = [
+          propiedad.value.numeroDeHabitaciones + " Habitaciones",
+          propiedad.value.numeroDeBanos + " Baños",
+          propiedad.value.metrosCuadrados + " Mts2"
+        ]
+
+    } catch (error) {
+      console.error('Error fetching properties:', error)
+    }
+  }
 
   onMounted(async () => {
+    fetchPropiedades()
+  })
+
+
+  /*onMounted(async () => {
     // Aquí normalmente harías una llamada a tu API para obtener los detalles de la propiedad
     // Por ahora, usaremos datos de ejemplo
     propiedad.value = {
@@ -99,7 +126,7 @@
       venta: true,
       alquiler: false
     }
-  })
+  })*/
 
   const formatPrecio = (valor) => {
     return new Intl.NumberFormat('es-CL', {

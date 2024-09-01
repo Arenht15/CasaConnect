@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <h1 class="text-h4 mb-4">Mis Viviendas</h1>
     <router-link to="/addHouse">
       <v-btn color="secondary">Agregar Nueva Vivienda</v-btn>
     </router-link>
@@ -18,7 +17,7 @@
       <v-list-item v-for="vivienda in viviendas" :key="vivienda.idVivienda" density="compact" slim>
           <v-row align="center">
             <v-col cols="2">
-              <v-img :src="vivienda.fotos[0]" height="100" contain></v-img>
+              <v-img :src="preview(vivienda.fotos[0])" height="100" contain></v-img>
             </v-col>
             <v-col cols="2">
               <v-list-item-title>{{ vivienda.codigoUnico }}</v-list-item-title>
@@ -55,14 +54,14 @@
           <v-form @submit.prevent="guardarVivienda">
             <v-carousel v-if="viviendaActual.fotos && viviendaActual.fotos.length > 0" height="300">
               <v-carousel-item v-for="(foto, index) in viviendaActual.fotos" :key="index">
-                <v-img :src="foto" height="300" cover>
+                <v-img :src="preview(foto)" height="300" cover>
                   <template v-slot:placeholder>
                     <v-row class="fill-height ma-0" align="center" justify="center">
                       <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
                     </v-row>
                   </template>
                   <v-btn icon class="position-absolute top-0 right-0 mt-2 mr-2" @click.stop="eliminarFoto(index)">
-                    <v-icon color="error">mdi-close</v-icon>
+                    <v-icon color="error">mdi-delete</v-icon>
                   </v-btn>
                 </v-img>
               </v-carousel-item>
@@ -86,13 +85,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { useUserStore } from '@/stores/user'
+import { useHouseStore } from '@/stores/house'
 
+const houseStore = useHouseStore()
 const viviendas = ref([])
 const dialog = ref(false)
 const editMode = ref(false)
 const viviendaActual = ref({})
-const nuevasFotos = ref([])
+const nuevasFotos = ref(null)
+//const imagen = ref(null)
 
 const fetchViviendas = async () => {
   try {
@@ -107,6 +108,12 @@ onMounted(() => {
   fetchViviendas()
 })
 
+const preview = (image) => {
+    if (image && typeof image === 'string') {
+      return `http://localhost:8080/uploads/${image}`
+    }
+  }
+
 const openDialog = (vivienda = null) => {
   if (vivienda) {
     viviendaActual.value = { ...vivienda }
@@ -118,9 +125,33 @@ const openDialog = (vivienda = null) => {
   dialog.value = true
 }
 
+const subirImagen = async (vivienda) => {
+  console.log('subirImagen', nuevasFotos.value)
+  console.log('houseStore.idVivienda', vivienda.idVivienda)
+  // console.log('profile.value.userId', profile.value.userId)
+  if (nuevasFotos.value[0] instanceof File) {
+    console.log('entro a guardar')
+    const formData = new FormData()
+    formData.append('file', nuevasFotos.value[0])
+    try {
+      const response = await houseStore.subirImagen(formData, vivienda.idVivienda)
+      // profile.value.userImage = response.data
+      nuevasFotos.value = response.data
+      viviendaActual.value.fotos.push(nuevasFotos.value);
+      // showMessage('Avatar actualizado', 'success')
+    } catch (error) {
+      console.error('Error al subir la imagen:', error)
+      // showMessage('Error al subir la imagen.', 'error')
+    }
+  }
+}
+
 const guardarVivienda = async () => {
   // Aquí implementarías la lógica para guardar o actualizar la vivienda en el backend
   if (editMode.value) {
+    subirImagen(viviendaActual.value)
+    //houseStore.subirImagen(viviendaActual.value)
+    console.log("guardar foto" + nuevasFotos.value)
     // Actualizar vivienda existente
   } else {
     // Crear nueva vivienda
@@ -134,7 +165,7 @@ const eliminarVivienda = async (id) => {
   // Aquí implementarías la lógica para eliminar la vivienda en el backend
   try {
     await axios.delete(`http://localhost:8080/api/v1/vivienda/validate/${id}/`)
-    viviendas.value = viviendas.value.filter(v => v.idVivienda !== id)
+  viviendas.value = viviendas.value.filter(v => v.idVivienda !== id)
   } catch (error) {
     console.error('Error deleting property:', error)
   }

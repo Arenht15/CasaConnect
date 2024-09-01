@@ -66,8 +66,8 @@ export const useHouseStore = defineStore('house', {
     isUsernameValid(username) {
       return username.length >= 5
     },
-    subirImagenPerfil(formData, id) {
-      return axios.post(`http://localhost:8080/api/v1/usuario/${id}/imagen`, formData, {
+    subirImagen(formData, id) {
+      return axios.post(`http://localhost:8080/api/v1/vivienda/${id}/imagen`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
