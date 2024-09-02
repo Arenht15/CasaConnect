@@ -103,6 +103,12 @@ const filtrarPropiedades = async (filtros = {}) => {
     console.log('Filtros enviados:', filtros); // Mostrar los filtros en la consola
     const response = await axios.get('http://localhost:8080/api/v1/vivienda/filtrar/', { params: filtros });
     propiedades.value = response.data;
+    propiedades.value.forEach(p => {
+        p.caracteristicas =
+          p.numeroDeHabitaciones + " Hab., " +
+          p.numeroDeBanos + " Baños, " +
+          p.metrosCuadrados + " Mts2";
+      });
   } catch (error) {
     console.error('Error fetching properties:', error);
   }
@@ -155,10 +161,14 @@ const ordenarPorPrecioMenorMayor = async () => {
 
 const aplicarFiltros = () => {
   const filtros = {
-    tipoPropiedad: tipoPropiedad.value,
     precioMin: rangoPrecio.value[0],
-    precioMax: rangoPrecio.value[1],
-    numeroHabitaciones: numeroHabitaciones.value
+    precioMax: rangoPrecio.value[1]
+  }
+  if (tipoPropiedad.value) {
+    filtros.tipoPropiedad = tipoPropiedad.value
+  }
+  if (numeroHabitaciones.value) {
+    filtros.numeroHabitaciones = numeroHabitaciones.value
   }
   filtrarPropiedades(filtros)
 }
