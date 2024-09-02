@@ -30,18 +30,23 @@
                     v-model="housecode"
                     :rules="[v => !!v || 'Campo requerido']"
                   ></v-text-field>
-                  <v-text-field
-                    name="ubicacion"
-                    label="ubicacion"
-                    placeholder="ubicacion"
-                    type="ubicacion"
+                  <v-autocomplete
                     v-model="ubicacion"
+                    :items="ubicacionOptions"
+                    label="Ubicación"
+                    placeholder="Selecciona o agrega una ubicación"
                     :rules="[v => !!v || 'Campo requerido']"
-                  ></v-text-field>
+                    clearable
+                    chips
+                    solo
+                    hide-no-data
+                    hide-details
+                    @change="addUbicacionOption"
+                  ></v-autocomplete>
                   <v-text-field
                     id="habitation"
                     name="habitation"
-                    label="habitation"
+                    label="Habitación"
                     type="habitation"
                     v-model="habitation"
                     :rules="[v => !!v || 'Campo requerido']"
@@ -49,7 +54,7 @@
                   <v-text-field
                     id="price"
                     name="price"
-                    label="price"
+                    label="Precio"
                     type="price"
                     v-model="price"
                     :rules="[v => !!v || 'Campo requerido']"
@@ -57,7 +62,7 @@
                   <v-text-field
                     id="state"
                     name="state"
-                    label="state"
+                    label="Estado"
                     type="state"
                     v-model="state"
                     :rules="[v => !!v || 'Campo requerido']"
@@ -65,32 +70,32 @@
                   <v-text-field
                     id="description"
                     name="description"
-                    label="description"
+                    label="Descripción"
                     type="description"
                     v-model="description"
                     :rules="[v => !!v || 'Campo requerido']"
                   ></v-text-field>
                   <v-expansion-panels>
                     <v-expansion-panel>
-                      <header>Tipo de propiedad</header>
-                      <main>
-                        <v-radio-group v-model="houseType">
-                          <v-radio label="Arriendo" value="Arriendo"></v-radio>
-                          <v-radio label="Vivienda" value="Vivienda"></v-radio>
-                        </v-radio-group>
-                      </main>
+                      <template v-slot:header>
+                        <div>Tipo de propiedad</div>
+                      </template>
+                      <v-radio-group v-model="houseType">
+                        <v-radio label="Arriendo" value="Arriendo"></v-radio>
+                        <v-radio label="Vivienda" value="Vivienda"></v-radio>
+                      </v-radio-group>
                     </v-expansion-panel>
                     <v-expansion-panel>
-                      <header>Agregar Fotos</header>
-                      <main>
-                        <v-file-input
-                          v-model="housePhotos"
-                          label="Subir Fotos"
-                          multiple
-                          accept="image/*"
-                          prepend-icon="mdi-camera"
-                        ></v-file-input>
-                      </main>
+                      <template v-slot:header>
+                        <div>Agregar Fotos</div>
+                      </template>
+                      <v-file-input
+                        v-model="housePhotos"
+                        label="Subir Fotos"
+                        multiple
+                        accept="image/*"
+                        prepend-icon="mdi-camera"
+                      ></v-file-input>
                     </v-expansion-panel>
                   </v-expansion-panels>
                 </v-form>
@@ -117,6 +122,7 @@ const houseStore = useHouseStore()
 
 const housecode = ref('')
 const ubicacion = ref('')
+const ubicacionOptions = ref(['Santiago', 'Valparaíso', 'Concepción']) // Opciones iniciales
 const habitation = ref('')
 const price = ref('')
 const state = ref('')
@@ -124,6 +130,7 @@ const description = ref('')
 const houseType = ref('')
 const houseIntention = ref('')
 const housePhotos = ref([])
+const houseTitlle = ref('')
 const messageInfo = ref({ show: false, text: '', type: 'info' })
 
 const isValid = computed(() =>
@@ -132,7 +139,7 @@ const isValid = computed(() =>
 
 const handleRegister = async () => {
   try {
-    const success = await houseStore.register(housecode.value, ubicacion.value, habitation.value, price.value, state.value, description.value, houseType.value, houseIntention.value, housePhotos.value)
+    const success = await houseStore.register(housecode.value, ubicacion.value, habitation.value, price.value, state.value, description.value, houseType.value, houseIntention.value, housePhotos.value, houseTitlle.value)
     if (success) {
       showMessage("Registro exitoso", 'success')
       setTimeout(() => router.push("/properties"), 2000) // Redirige después de 2 segundos
@@ -145,6 +152,12 @@ const handleRegister = async () => {
 const showMessage = (text, type) => {
   messageInfo.value = { show: true, text, type }
   setTimeout(() => messageInfo.value = { show: false, text: "", type: "" }, 2000)
+}
+
+const addUbicacionOption = (newUbicacion) => {
+  if (newUbicacion && !ubicacionOptions.value.includes(newUbicacion)) {
+    ubicacionOptions.value.push(newUbicacion)
+  }
 }
 </script>
 

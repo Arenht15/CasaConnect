@@ -147,18 +147,20 @@ const subirImagen = async (vivienda) => {
 }
 
 const guardarVivienda = async () => {
-  // Aquí implementarías la lógica para guardar o actualizar la vivienda en el backend
-  if (editMode.value) {
-    subirImagen(viviendaActual.value)
-    //houseStore.subirImagen(viviendaActual.value)
-    console.log("guardar foto" + nuevasFotos.value)
-    // Actualizar vivienda existente
-  } else {
-    // Crear nueva vivienda
+  try {
+    if (editMode.value) {
+      // Actualizar vivienda existente
+      await axios.put(`http://localhost:8080/api/v1/vivienda/${viviendaActual.value.idVivienda}`, viviendaActual.value)
+    } else {
+      // Crear nueva vivienda
+      await axios.post('http://localhost:8080/api/v1/vivienda/', viviendaActual.value)
+    }
+    dialog.value = false
+    // Recargar la lista de viviendas
+    fetchViviendas()
+  } catch (error) {
+    console.error('Error saving property:', error)
   }
-  dialog.value = false
-  // Recargar la lista de viviendas
-  fetchViviendas()
 }
 
 const eliminarVivienda = async (id) => {

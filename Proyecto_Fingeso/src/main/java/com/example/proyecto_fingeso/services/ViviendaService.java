@@ -34,6 +34,30 @@ public class ViviendaService {
         return interVivienda.save(vivienda);
     }
 
+    // Encuentra una vivienda por su ID
+    public Optional<Vivienda> findById(Long id) {
+        return interVivienda.findById(id);
+    }
+
+    // Edita una vivienda existente
+    public Vivienda editVivienda(Long id, Vivienda viviendaDetails) {
+        return interVivienda.findById(id)
+                .map(vivienda -> {
+                    vivienda.setTipoVivienda(viviendaDetails.getTipoVivienda());
+                    vivienda.setUbicacion(viviendaDetails.getUbicacion());
+                    vivienda.setNumeroDeHabitaciones(viviendaDetails.getNumeroDeHabitaciones());
+                    vivienda.setPrecio(viviendaDetails.getPrecio());
+                    vivienda.setIntencionVenta(viviendaDetails.getIntencionVenta());
+                    vivienda.setDescripcion(viviendaDetails.getDescripcion());
+                    vivienda.setFotos(viviendaDetails.getFotos());
+                    return interVivienda.save(vivienda);
+                })
+                .orElseGet(() -> {
+                    viviendaDetails.setIdVivienda(id);
+                    return interVivienda.save(viviendaDetails);
+                });
+    }
+
     public Vivienda getViviendaByCodigo(String codigo){return interVivienda.findViviendaByCodigo(codigo);}
 
     public boolean deleteVivienda(Long id) throws Exception {
@@ -73,6 +97,22 @@ public class ViviendaService {
         return new ArrayList<>(viviendasOrdenadas);
     }
 
+    public List<Vivienda> getFilteredViviendas(String tipoPropiedad, Double precioMin, Double precioMax, Integer numeroHabitaciones) {
+        // Imprime los parámetros recibidos
+        System.out.println("Tipo de Propiedad: " + tipoPropiedad);
+        System.out.println("Precio Mínimo: " + precioMin);
+        System.out.println("Precio Máximo: " + precioMax);
+        System.out.println("Número de Habitaciones: " + numeroHabitaciones);
+
+        List<Vivienda> viviendas = interVivienda.findAll();
+
+        return viviendas.stream()
+                .filter(v -> tipoPropiedad == null || v.getTipoVivienda().equalsIgnoreCase(tipoPropiedad))
+                .filter(v -> precioMin == null || v.getPrecio() >= precioMin)
+                .filter(v -> precioMax == null || v.getPrecio() <= precioMax)
+                .filter(v -> numeroHabitaciones == null || v.getNumeroDeHabitaciones() == numeroHabitaciones || (numeroHabitaciones == 5 && v.getNumeroDeHabitaciones() >= 5))
+                .collect(Collectors.toList());
+    }
     public String guardarImagen(Long id, MultipartFile file) throws IOException {
         Vivienda vivienda = interVivienda.findByViviendaId(id);
         String nombreArchivo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();

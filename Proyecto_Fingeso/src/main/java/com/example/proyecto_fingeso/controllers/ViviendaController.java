@@ -26,10 +26,29 @@ public class ViviendaController {
         return ResponseEntity.ok(vivienda);
     }
 
+
+
+    @GetMapping("/filtrar/")
+    public List<Vivienda> getFilteredViviendas(
+            @RequestParam(required = false) String tipoPropiedad,
+            @RequestParam(required = false) Double precioMin,
+            @RequestParam(required = false) Double precioMax,
+            @RequestParam(required = false) Integer numeroHabitaciones) {
+
+        return serviceVivienda.getFilteredViviendas(tipoPropiedad, precioMin, precioMax, numeroHabitaciones);
+    }
+
     //Guarda una vivienda en el sistema
     @PostMapping("/")
     public ResponseEntity<Vivienda> saveVivienda(@RequestBody Vivienda vivienda) {
         Vivienda viviendaNew = serviceVivienda.saveVivienda(vivienda);
+        return ResponseEntity.ok(viviendaNew);
+    }
+
+    //Guarda una vivienda en el sistema
+    @PutMapping("/{id}")
+    public ResponseEntity<Vivienda> editVivienda(@PathVariable Long id, @RequestBody Vivienda vivienda) {
+        Vivienda viviendaNew = serviceVivienda.editVivienda(id, vivienda);
         return ResponseEntity.ok(viviendaNew);
     }
 

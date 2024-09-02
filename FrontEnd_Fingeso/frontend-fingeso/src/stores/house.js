@@ -10,14 +10,15 @@ export const useHouseStore = defineStore('house', {
     houseHabitation: '',
     housePrice: '',
     houseState: '',
-    houseDescription: ''
+    houseDescription: '',
+    houseTitle: ''
   }),
 
   actions: {
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen
     },
-    async register(housecode, houseubication, househabitation, houseprice, housestate, housedescription, housetype, houseintention, housephotos) {
+    async register(housecode, houseubication, househabitation, houseprice, housestate, housedescription, housetype, houseintention, housephotos, housetitle) {
 
       if (!this.isPasswordValid(houseubication)) {
         throw new Error("La contraseña debe tener al menos 5 caracteres.")
@@ -43,7 +44,8 @@ export const useHouseStore = defineStore('house', {
         'estado': housestate,
         'intencionVenta': houseintention, // Asegúrate de definir 'houseintention' en tu código
         'descripcion': housedescription,
-        'fotos': housephotos // Asegúrate de definir 'housephotos' en tu código
+        'fotos': housephotos, // Asegúrate de definir 'housephotos' en tu código
+        'titulo': housetitle 
       }
 
       // Registro/Guardado en BD
