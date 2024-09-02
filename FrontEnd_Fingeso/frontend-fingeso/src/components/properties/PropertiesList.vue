@@ -8,14 +8,14 @@
           <v-card-text>
             <v-select
               v-model="tipoPropiedad"
-              :items="['Vivienda', 'Arriendo']"
+              :items="['Casa', 'Departamento']"
               label="Tipo de propiedad"
             ></v-select>
             <v-range-slider
               v-model="rangoPrecio"
-              :max="1000000"
+              :max="100000000"
               :min="0"
-              :step="10000"
+              :step="100000"
               label="Rango de precio"
               color="primary"
             ></v-range-slider>
@@ -45,7 +45,7 @@
       <v-col cols="12" md="9">
         <!-- Lista de propiedades -->
         <v-row>
-          <v-col v-for="propiedad in propiedades" :key="propiedad.id" cols="12" sm="6" md="4">
+          <v-col v-for="propiedad in propiedades" :key="propiedad.idVivienda" cols="12" sm="6" md="4">
             <PropertyCard
               :propiedad="propiedad"
               @ver-detalles="verDetallesPropiedad"
@@ -65,30 +65,39 @@
   </v-container>
 </template>
 
-<script setup>
-import axios from 'axios'
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import PropertyCard from '@/components/properties/PropertyCard.vue'
+  <script setup>
+  import axios from 'axios'
+  import { ref, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useUserStore } from '@/stores/user'
+  import PropertyCard from '@/components/properties/PropertyCard.vue'
 
-const router = useRouter()
+  const router = useRouter()
+  const userStore = useUserStore()
 
 const tipoPropiedad = ref('')
-const rangoPrecio = ref([0, 1000000])
+const rangoPrecio = ref([0, 20000000])
 const numeroHabitaciones = ref(null)
 const paginaActual = ref(1)
 const totalPaginas = ref(10)
 
 const propiedades = ref([])
 
-const fetchPropiedades = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
-    propiedades.value = response.data
-  } catch (error) {
-    console.error('Error fetching properties:', error)
+  const fetchPropiedades = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
+      propiedades.value = response.data
+      propiedades.value.forEach(p => {
+        p.caracteristicas =
+          p.numeroDeHabitaciones + " Hab., " +
+          p.numeroDeBanos + " Baños, " +
+          p.metrosCuadrados + " Mts2";
+      });
+    } catch (error) {
+      console.error('Error fetching properties:', error)
+    }
   }
-}
+
 const filtrarPropiedades = async (filtros = {}) => {
   try {
     console.log('Filtros enviados:', filtros); // Mostrar los filtros en la consola

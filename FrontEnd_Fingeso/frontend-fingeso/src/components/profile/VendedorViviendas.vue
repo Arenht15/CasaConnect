@@ -150,6 +150,8 @@ const guardarVivienda = async () => {
   try {
     if (editMode.value) {
       // Actualizar vivienda existente
+    subirImagen(viviendaActual.value)
+
       await axios.put(`http://localhost:8080/api/v1/vivienda/${viviendaActual.value.idVivienda}`, viviendaActual.value)
     } else {
       // Crear nueva vivienda
