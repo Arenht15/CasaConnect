@@ -81,8 +81,8 @@
                         <div>Tipo de propiedad</div>
                       </template>
                       <v-radio-group v-model="houseType">
-                        <v-radio label="Arriendo" value="Arriendo"></v-radio>
-                        <v-radio label="Vivienda" value="Vivienda"></v-radio>
+                        <v-radio label="Departamento" value="Departamento"></v-radio>
+                        <v-radio label="Casa" value="Casa"></v-radio>
                       </v-radio-group>
                     </v-expansion-panel>
                     <v-expansion-panel>
