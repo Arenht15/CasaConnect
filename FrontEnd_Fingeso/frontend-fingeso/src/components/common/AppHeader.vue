@@ -20,6 +20,11 @@
 
       <v-btn icon class="mr-2" v-if="userStore.isAuthenticated">
         <v-icon color="secondary">mdi-bell</v-icon>
+        <v-badge
+          v-if="messageStore.unreadMessagesCount > 0"
+          :content="messageStore.unreadMessagesCount"
+          color="error"
+        ></v-badge>
         <v-tooltip
         activator="parent"
         location="top"
@@ -29,7 +34,12 @@
       <v-menu offset-y v-if="userStore.isAuthenticated">
         <template v-slot:activator="{ props }">
           <v-btn icon v-bind="props">
-            <v-icon color="secondary">mdi-account</v-icon>
+            <v-avatar color="info">
+              <v-img v-if="userStore.userImage"
+              :src="preview(userStore.userImage)"
+              ></v-img>
+              <v-icon v-else icon="mdi-account"></v-icon>
+            </v-avatar>
             <v-tooltip
             activator="parent"
             location="top"
@@ -37,9 +47,6 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item>
-            <v-list-item-title class="text-inline">{{ userStore.userName }}</v-list-item-title>
-          </v-list-item>
           <v-list-item @click="goToProfile">
             <v-icon>mdi-account-outline</v-icon>
             <v-list-item-title class="text-inline">Mi cuenta</v-list-item-title>
@@ -54,17 +61,31 @@
   </template>
 
   <script setup>
-  import { computed } from 'vue'
+  import { computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useUserStore } from '@/stores/user' // Asegúrate de que la ruta sea correcta
+  import { useMessageStore } from '@/stores/message'
 
   const router = useRouter()
   const userStore = useUserStore()
+  const messageStore = useMessageStore()
 
   const isVendor = computed(() => userStore.isVendor)
 
   const toggleDrawer = () => {
     userStore.toggleDrawer()
+  }
+
+  onMounted(() => {
+    if (userStore.isAuthenticated) {
+      messageStore.fetchUnreadMessagesCount(userStore.userId)
+    }
+  })
+
+  const preview = (image) => {
+    if (image && typeof image === 'string') {
+      return `http://localhost:8080/uploads/${image}`
+    }
   }
 
   const goToProfile = () => router.push('/profile')

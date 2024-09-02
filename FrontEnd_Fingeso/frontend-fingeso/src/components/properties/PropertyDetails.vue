@@ -59,9 +59,9 @@
         </v-card-text>
       </v-card>
 
-      <v-alert v-else type="error">
+      <!-- <v-alert v-else type="error">
         No se encontró la propiedad solicitada.
-      </v-alert>
+      </v-alert> -->
     </v-container>
   </template>
 
