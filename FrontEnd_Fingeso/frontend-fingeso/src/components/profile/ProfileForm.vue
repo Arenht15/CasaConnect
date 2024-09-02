@@ -37,7 +37,18 @@
             ></v-text-field>
             <v-btn type="submit" color="primary" block class="mt-4">Guardar cambios</v-btn>
           </v-form>
-          <v-btn color="error" block class="mt-4" @click="confirmDelete">Eliminar Perfil</v-btn>
+          <v-btn color="error" block class="mt-4" @click="showConfirmDialog = true">Eliminar Perfil</v-btn>
+          <v-dialog v-model="showConfirmDialog" max-width="400">
+            <v-card>
+              <v-card-title class="headline">Confirmación</v-card-title>
+              <v-card-subtitle>¿Estás seguro de que quieres eliminar el perfil?</v-card-subtitle>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text @click="showConfirmDialog = false">Cancelar</v-btn>
+                <v-btn color="error" @click="deleteProfile">Eliminar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-card>
       </v-col>
     </v-row>
@@ -47,11 +58,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const userStore = useUserStore()
 const profile = ref({})
 const imagenPerfil = ref(null)
 const messageInfo = ref({ show: false, text: '', type: 'info' })
+const showConfirmDialog = ref(false)
 
 const avatarPreview = computed(() => {
   if (imagenPerfil.value && typeof imagenPerfil.value === 'string') {
@@ -96,9 +110,15 @@ const updateProfile = async () => {
   }
 }
 
-const confirmDelete = () => {
-  // Aquí iría la lógica para confirmar y eliminar el perfil
-  console.log('Confirmar eliminación de perfil')
+const deleteProfile = () => {
+  try{
+    userStore.delete(profile.value.userId)
+    showMessage('Perfil eliminado', 'success')
+    setTimeout(() => router.push('/login'), 2000)
+  } catch (error) {
+    console.error('Error al eliminar el perfil', error)
+    showMessage('Error al eliminar el perfil.', 'error')
+  }
 }
 
 const subirImagen = async (profile) => {

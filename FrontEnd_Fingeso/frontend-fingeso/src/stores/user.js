@@ -121,22 +121,11 @@ export const useUserStore = defineStore('user', {
         throw new Error("Por favor, ingrese un correo electrónico válido.")
       }
 
-      // Verifica en BD existencia de usuario o correo
-      // try {
-      //   const res = await axios.get(`http://localhost:8080/api/v1/usuario/validate/${username}/${useremail}`)
-      //   if (res.data && res.data > 0) {
-      //     throw new Error("Nombre de Usuario ya existe, no puede usar ese.")
-      //   }
-      // } catch (e) {
-      //   console.log(e.message)
-      //   throw new Error(e.message)
-      // }
-
       const data = {
         'idUsuario': userid,
         'nombre': username,
         'email': useremail,
-        'imagenPerfil': userpicture,
+        'imagenPerfil': userpicture || '',
         'contrasena': '',
         'rol': this.userRol
       }
@@ -146,11 +135,20 @@ export const useUserStore = defineStore('user', {
         await axios.post("http://localhost:8080/api/v1/usuario/", data)
         this.userName = username
         this.userEmail = useremail
-        this.userImage = userpicture
+        this.userImage = userpicture || ''
         return true
       } catch (e) {
         console.log(e.message)
         throw new Error("Error en el registro")
+      }
+    },
+
+    async delete(userId) {
+      try {
+        await axios.delete(`http://localhost:8080/api/v1/usuario/${userId}`);
+        console.log('Usuario eliminado exitosamente');
+      } catch (error) {
+        console.error('Error al eliminar usuario:', error.response ? error.response.data : error.message);
       }
     },
   },

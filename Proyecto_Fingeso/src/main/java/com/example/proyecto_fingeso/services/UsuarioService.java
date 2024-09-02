@@ -84,4 +84,12 @@ public class UsuarioService {
         interUsuario.save(usuario);
         return nombreArchivo;
     }
+
+    public void deleteUsuario(Long id) throws Exception{
+        try {
+            interUsuario.deleteById(id);
+        } catch (Exception e) {
+            throw new Exception("No se pudo eliminar el usuario");
+        }
+    }
 }

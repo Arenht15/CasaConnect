@@ -3,6 +3,7 @@ package com.example.proyecto_fingeso.repository;
 import com.example.proyecto_fingeso.entities.Chat;
 import com.example.proyecto_fingeso.entities.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,4 +19,5 @@ public interface InterUsuario extends JpaRepository<Usuario, Long>{
     Long findByNombreOrEmail(@Param("nombre") String nombre, @Param("email") String email);
 
     Usuario findByEmailAndContrasena(String email, String contrasena);
+
 }
