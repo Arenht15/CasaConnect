@@ -83,32 +83,22 @@ const totalPaginas = ref(10)
 
 const propiedades = ref([])
 
-  const fetchPropiedades = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
-      propiedades.value = response.data
-      propiedades.value.forEach(p => {
-        p.caracteristicas =
-          p.numeroDeHabitaciones + " Hab., " +
-          p.numeroDeBanos + " Baños, " +
-          p.metrosCuadrados + " Mts2";
-      });
-    } catch (error) {
-      console.error('Error fetching properties:', error)
-    }
+const fetchPropiedades = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
+    propiedades.value = response.data
+    agregarCaracteristicas(propiedades.value)
+  } catch (error) {
+    console.error('Error fetching properties:', error)
   }
+}
 
 const filtrarPropiedades = async (filtros = {}) => {
   try {
     console.log('Filtros enviados:', filtros); // Mostrar los filtros en la consola
     const response = await axios.get('http://localhost:8080/api/v1/vivienda/filtrar/', { params: filtros });
     propiedades.value = response.data;
-    propiedades.value.forEach(p => {
-        p.caracteristicas =
-          p.numeroDeHabitaciones + " Hab., " +
-          p.numeroDeBanos + " Baños, " +
-          p.metrosCuadrados + " Mts2";
-      });
+    agregarCaracteristicas(propiedades.value)
   } catch (error) {
     console.error('Error fetching properties:', error);
   }
@@ -141,10 +131,20 @@ const contactarPropietario = (id) => {
   // Aquí iría la lógica para mostrar un formulario de contacto o similar
 }
 
+const agregarCaracteristicas = (propiedades) => {
+  propiedades.forEach(p => {
+    p.caracteristicas =
+      p.numeroDeHabitaciones + " Hab., " +
+      p.numeroDeBanos + " Baños, " +
+      p.metrosCuadrados + " Mts2";
+  });
+}
+
 const ordenarPorPrecioMayorMenor = async () => {
   try {
     const response = await axios.get(`http://localhost:8080/api/v1/vivienda/ordenar/precio/MayoraMenor`)
     propiedades.value = response.data
+    agregarCaracteristicas(propiedades.value)
   } catch (error) {
     console.error('Error ordenando propiedades:', error)
   }
@@ -154,11 +154,11 @@ const ordenarPorPrecioMenorMayor = async () => {
   try {
     const response = await axios.get(`http://localhost:8080/api/v1/vivienda/ordenar/precio/MenoraMayor`)
     propiedades.value = response.data
+    agregarCaracteristicas(propiedades.value)
   } catch (error) {
     console.error('Error ordenando propiedades:', error)
   }
 }
-
 const aplicarFiltros = () => {
   const filtros = {
     precioMin: rangoPrecio.value[0],
