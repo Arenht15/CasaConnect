@@ -85,8 +85,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useUserStore } from '@/stores/user'
 import { useHouseStore } from '@/stores/house'
 
+const userStore = useUserStore()
 const houseStore = useHouseStore()
 const viviendas = ref([])
 const dialog = ref(false)
@@ -99,6 +101,7 @@ const fetchViviendas = async () => {
   try {
     const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
     viviendas.value = response.data
+    viviendas.value = viviendas.value.find(p => p.vendedor.idUsuario === userStore.userId)
   } catch (error) {
     console.error('Error fetching properties:', error)
   }

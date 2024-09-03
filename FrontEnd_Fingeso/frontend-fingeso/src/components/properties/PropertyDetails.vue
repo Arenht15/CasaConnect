@@ -89,10 +89,10 @@
 
   const fetchPropiedades = async () => {
     try {
-      const id = parseInt(router.currentRoute.value.params.id) - 1
+      const id = parseInt(router.currentRoute.value.params.id) // - 1
       const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
       propiedades.value = response.data
-      propiedad.value = propiedades.value[id]
+      propiedad.value = propiedades.value.find(p => p.idVivienda === id) // propiedades.value[id]
       propiedad.value.caracteristicas = [
           propiedad.value.numeroDeHabitaciones + " Habitaciones",
           propiedad.value.numeroDeBanos + " Baños",
