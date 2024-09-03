@@ -61,7 +61,7 @@
   </template>
 
   <script setup>
-  import { computed, onMounted } from 'vue'
+  import { onMounted, onUnmounted, watch } from 'vue'
   import { useRouter } from 'vue-router'
   import { useUserStore } from '@/stores/user' // Asegúrate de que la ruta sea correcta
   import { useMessageStore } from '@/stores/message'
@@ -70,17 +70,46 @@
   const userStore = useUserStore()
   const messageStore = useMessageStore()
 
-  const isVendor = computed(() => userStore.isVendor)
+  let intervalId
 
   const toggleDrawer = () => {
     userStore.toggleDrawer()
   }
 
+  const startCheckingMessages = () => {
+    checkNewMessages()
+    intervalId = setInterval(checkNewMessages, 10000) // Revisa cada 30 segundos
+  }
+
+  const stopCheckingMessages = () => {
+    if (intervalId) {
+      clearInterval(intervalId)
+      intervalId = null
+    }
+  }
+
+  watch(() => userStore.isAuthenticated, (newValue) => {
+    if (newValue) {
+      startCheckingMessages()
+    } else {
+      stopCheckingMessages()
+    }
+  })
+
   onMounted(() => {
+    if (userStore.isAuthenticated) {
+      startCheckingMessages()
+    }
+  })
+
+  onUnmounted(() => {
+    stopCheckingMessages()
+  })
+  const checkNewMessages = async () => {
     if (userStore.isAuthenticated) {
       messageStore.fetchUnreadMessagesCount(userStore.userId)
     }
-  })
+  }
 
   const preview = (image) => {
     if (image && typeof image === 'string') {
@@ -89,8 +118,6 @@
   }
 
   const goToProfile = () => router.push('/profile')
-  const goToFavorites = () => router.push('/favorites')
-  const goToPayments = () => router.push('/payments')
   const goToHome = () => router.push('/')
   const logout = () => {
     userStore.logout()

@@ -62,9 +62,10 @@
   const isAuthenticated = computed(() => userStore.isAuthenticated)
   const messages = computed(() => messageStore.messages)
 
-  const sendMessage = () => {
+  const sendMessage = (userId, vendorId, propertyId, text) => {
     if (newMessage.value.trim() && isAuthenticated.value) {
-      messageStore.sendMessage(newMessage.value)
+      // messageStore.sendMessage(newMessage.value)
+      crearNuevoChat
       newMessage.value = ''
       // Aquí podrías agregar lógica para enviar el mensaje al backend
       // y luego recibir una respuesta del bot

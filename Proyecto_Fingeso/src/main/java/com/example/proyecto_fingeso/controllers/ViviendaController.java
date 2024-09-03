@@ -26,8 +26,6 @@ public class ViviendaController {
         return ResponseEntity.ok(vivienda);
     }
 
-
-
     @GetMapping("/filtrar/")
     public List<Vivienda> getFilteredViviendas(
             @RequestParam(required = false) String tipoPropiedad,

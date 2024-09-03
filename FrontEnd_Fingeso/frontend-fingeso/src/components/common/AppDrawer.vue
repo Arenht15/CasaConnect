@@ -18,7 +18,7 @@
           <v-icon>mdi-home-outline</v-icon>
           <v-list-item-title class="text-inline">Inicio</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="goToFavorites">
+        <v-list-item v-if="!userStore.isVendor" @click="goToFavorites">
           <v-icon>mdi-heart-outline</v-icon>
           <v-list-item-title class="text-inline">Favoritos</v-list-item-title>
         </v-list-item>
@@ -26,7 +26,7 @@
           <v-icon>mdi-chat-outline</v-icon>
           <v-list-item-title class="text-inline">Mis mensajes</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="userStore.isVendor" @click="goToPayments">
+        <v-list-item v-if="!userStore.isVendor" @click="goToPayments">
           <v-icon>mdi-cash</v-icon>
           <v-list-item-title class="text-inline">Pagos</v-list-item-title>
         </v-list-item>

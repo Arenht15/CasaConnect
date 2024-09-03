@@ -70,7 +70,6 @@ public class ViviendaService {
 
     }
 
-
     // Método para obtener las viviendas ordenadas por precio de mayor a menor
     public ArrayList<Vivienda> getViviendaOrder() {
         // Obtiene todas las viviendas desde la base de datos
@@ -84,7 +83,6 @@ public class ViviendaService {
         // Retorna la lista ordenada como ArrayList
         return new ArrayList<>(viviendasOrdenadas);
     }
-
 
     public ArrayList<Vivienda> getViviendaOrderMenorMayor() {
 
@@ -113,6 +111,7 @@ public class ViviendaService {
                 .filter(v -> numeroHabitaciones == null || v.getNumeroDeHabitaciones() == numeroHabitaciones || (numeroHabitaciones == 5 && v.getNumeroDeHabitaciones() >= 5))
                 .collect(Collectors.toList());
     }
+
     public String guardarImagen(Long id, MultipartFile file) throws IOException {
         Vivienda vivienda = interVivienda.findByViviendaId(id);
         String nombreArchivo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();

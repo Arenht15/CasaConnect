@@ -23,7 +23,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-btn
+    <!-- <v-btn
       v-show="isAuthenticated && !showChatDrawer"
       @click="toggleChat"
       class="chat-button"
@@ -37,31 +37,31 @@
         offset-x="10"
         offset-y="10"
       ></v-badge>
-    </v-btn>
+    </v-btn> -->
   </v-footer>
 </template>
 
 
 <script setup>
-import { computed } from 'vue'
+// import { computed } from 'vue'
 import { useUserStore } from '@/stores/user' // Asegúrate de que la ruta sea correcta
-import { useMessageStore } from '@/stores/message'
+// import { useMessageStore } from '@/stores/message'
 
-const props = defineProps({
-  showChatDrawer: Boolean
-})
+// const props = defineProps({
+//   showChatDrawer: Boolean
+// })
 
 const userStore = useUserStore()
-const messageStore = useMessageStore()
+// const messageStore = useMessageStore()
 
-const emit = defineEmits(['toggle-chat'])
+// const emit = defineEmits(['toggle-chat'])
 
-const isAuthenticated = computed(() => userStore.isAuthenticated)
-const hasUnreadMessages = computed(() => messageStore.hasUnreadMessages)
+// const isAuthenticated = computed(() => userStore.isAuthenticated)
+// const hasUnreadMessages = computed(() => messageStore.hasUnreadMessages)
 
-const toggleChat = () => {
-  emit('toggle-chat')
-}
+// const toggleChat = () => {
+//   emit('toggle-chat')
+// }
 </script>
 
 <style scoped>
