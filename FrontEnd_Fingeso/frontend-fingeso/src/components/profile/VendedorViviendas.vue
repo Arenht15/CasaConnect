@@ -95,13 +95,14 @@ const dialog = ref(false)
 const editMode = ref(false)
 const viviendaActual = ref({})
 const nuevasFotos = ref(null)
+const propiedades = ref([])
 //const imagen = ref(null)
 
 const fetchViviendas = async () => {
   try {
     const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
-    viviendas.value = response.data
-    viviendas.value = viviendas.value.find(p => p.vendedor.idUsuario === userStore.userId)
+    propiedades.value = response.data
+    viviendas.value = propiedades.value.filter(p => p.vendedor.idUsuario === userStore.userId)
   } catch (error) {
     console.error('Error fetching properties:', error)
   }

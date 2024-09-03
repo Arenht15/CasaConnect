@@ -27,7 +27,13 @@
         </v-row>
         <v-row justify="center" class="mt-6" v-if="userStore.isAuthenticated">
           <v-col cols="12" md="5" lg="4" class="d-flex justify-center">
-            <div class="info-box">
+            <v-btn
+                color="primary"
+                @click="$router.push('/properties')"
+              >
+                Ver propiedades
+              </v-btn>
+            <!-- <div class="info-box">
               <v-img
                 src="../assets/Arriendos1.jpg"
                 alt="Arriendos"
@@ -60,7 +66,7 @@
               >
                 Ventas
               </v-btn>
-            </div>
+            </div> -->
           </v-col>
         </v-row>
       </v-col>
