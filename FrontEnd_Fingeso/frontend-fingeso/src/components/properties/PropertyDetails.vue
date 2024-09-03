@@ -23,7 +23,12 @@
               <p class="text-h6">{{ propiedad.ubicacion }}</p>
               <p class="text-h5 primary--text">{{ formatPrecio(propiedad.precio) }}</p>
               <v-chip-group>
-                <v-chip v-for="(caracteristica, index) in propiedad.caracteristicas" :key="index">
+                <v-chip color="primary" variant="flat" v-for="(property, index) in propiedad.propiedades" :key="index">
+                  {{ property }}
+                </v-chip>
+              </v-chip-group>
+              <v-chip-group>
+                  <v-chip v-for="(caracteristica, index) in propiedad.caracteristicas" :key="index">
                   {{ caracteristica }}
                 </v-chip>
               </v-chip-group>
@@ -94,10 +99,14 @@
       propiedades.value = response.data
       propiedad.value = propiedades.value.find(p => p.idVivienda === id) // propiedades.value[id]
       propiedad.value.caracteristicas = [
-          propiedad.value.numeroDeHabitaciones + " Habitaciones",
-          propiedad.value.numeroDeBanos + " Baños",
-          propiedad.value.metrosCuadrados + " Mts2"
-        ]
+        propiedad.value.numeroDeHabitaciones + " Habitaciones",
+        propiedad.value.numeroDeBanos + " Baños",
+        propiedad.value.metrosCuadrados + " Mts2"
+      ]
+      propiedad.value.propiedades = [
+        propiedad.value.tipoVivienda,
+        propiedad.value.intencionVenta ? "Venta" : "Arriendo"
+      ]
 
     } catch (error) {
       console.error('Error fetching properties:', error)

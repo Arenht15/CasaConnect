@@ -5,6 +5,7 @@
     <v-card-text>
       <div>{{ propiedad.ubicacion }}</div>
       <div class="text-h6 primary--text">{{ formatPrecio(propiedad.precio) }}</div>
+      <div style="font-weight: bold;">{{ propiedad.propiedades }}</div>
       <div>{{ propiedad.caracteristicas }}</div>
     </v-card-text>
     <v-card-actions>
@@ -22,7 +23,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['ver-detalles'])
-
 
 const preview = (image) => {
     if (image && typeof image === 'string') {

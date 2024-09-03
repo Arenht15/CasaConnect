@@ -137,6 +137,9 @@ const agregarCaracteristicas = (propiedades) => {
       p.numeroDeHabitaciones + " Hab., " +
       p.numeroDeBanos + " Baños, " +
       p.metrosCuadrados + " Mts2";
+    p.propiedades =
+      p.tipoVivienda + " - " +
+      (p.intencionVenta  ? "Venta" : "Arriendo")
   });
 }
 

@@ -46,9 +46,13 @@ public class ViviendaService {
                     vivienda.setTipoVivienda(viviendaDetails.getTipoVivienda());
                     vivienda.setUbicacion(viviendaDetails.getUbicacion());
                     vivienda.setNumeroDeHabitaciones(viviendaDetails.getNumeroDeHabitaciones());
+                    vivienda.setNumeroDeBanos(viviendaDetails.getNumeroDeBanos());
+                    vivienda.setMetrosCuadrados(viviendaDetails.getMetrosCuadrados());
                     vivienda.setPrecio(viviendaDetails.getPrecio());
                     vivienda.setIntencionVenta(viviendaDetails.getIntencionVenta());
                     vivienda.setDescripcion(viviendaDetails.getDescripcion());
+                    vivienda.setTitulo(viviendaDetails.getTitulo());
+                    vivienda.setCodigoUnico(viviendaDetails.getCodigoUnico());
                     vivienda.setFotos(viviendaDetails.getFotos());
                     return interVivienda.save(vivienda);
                 })

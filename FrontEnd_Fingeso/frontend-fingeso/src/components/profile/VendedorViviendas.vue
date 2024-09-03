@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <router-link to="/addHouse">
-      <v-btn color="primary">Agregar Nueva Vivienda</v-btn>
-    </router-link>
+    <!-- <router-link to="/addHouse"> -->
+      <v-btn color="primary" @click="openDialog()">Agregar Nueva Vivienda</v-btn>
+    <!-- </router-link> -->
     <v-list density="compact" lines="one" slim>
       <v-list-item class="font-weight-bold" density="compact">
         <v-row align="center">
@@ -66,13 +66,25 @@
                 </v-img>
               </v-carousel-item>
             </v-carousel>
-            <v-text-field v-model="viviendaActual.tipoVivienda" label="Tipo de Vivienda"></v-text-field>
+            <v-text-field v-model="viviendaActual.codigoUnico" label="Código Único de Vivienda"></v-text-field>
+            <v-radio-group v-model="viviendaActual.tipoVivienda">
+              <v-radio label="Departamento" value="departamento"></v-radio>
+              <v-radio label="Casa" value="casa"></v-radio>
+            </v-radio-group>
+            <!-- <v-text-field v-model="viviendaActual.tipoVivienda" label="Tipo de Vivienda"></v-text-field> -->
+            <v-text-field v-model="viviendaActual.titulo" label="Título"></v-text-field>
+            <v-textarea v-model="viviendaActual.descripcion" label="Descripción"></v-textarea>
             <v-text-field v-model="viviendaActual.ubicacion" label="Ubicación"></v-text-field>
             <v-text-field v-model="viviendaActual.numeroDeHabitaciones" label="Número de Habitaciones" type="number"></v-text-field>
+            <v-text-field v-model="viviendaActual.numeroDeBanos" label="Número de Baños" type="number"></v-text-field>
+            <v-text-field v-model="viviendaActual.metrosCuadrados" label="Metros Cuadrados" type="number"></v-text-field>
             <v-text-field v-model="viviendaActual.precio" label="Precio" type="number"></v-text-field>
-            <v-select v-model="viviendaActual.intencionVenta" :items="[{text: 'Venta', value: 1}, {text: 'Arriendo', value: 2}]" label="Intención"></v-select>
-            <v-textarea v-model="viviendaActual.descripcion" label="Descripción"></v-textarea>
-            <v-file-input v-model="nuevasFotos" label="Agregar Fotos" multiple accept="image/*"></v-file-input>
+            <!-- <v-radio-group v-model="viviendaActual.intencionVenta">
+              <v-radio label="Venta" value=1></v-radio>
+              <v-radio label="Arriendo" value=0></v-radio>
+            </v-radio-group> -->
+            <v-select v-model="viviendaActual.intencionVenta" :item-value="value" :item-title="title" :items="[{title:'Arriendo', value:0}, {title:'Venta', value:1}]" label="Intención"></v-select>
+            <v-file-input v-if="viviendaActual.idVivienda" v-model="nuevasFotos" label="Agregar Fotos" multiple accept="image/*"></v-file-input>
             <v-btn color="primary" type="submit">Guardar</v-btn>
             <v-btn color="error" @click="dialog = false">Cancelar</v-btn>
           </v-form>
@@ -124,6 +136,13 @@ const openDialog = (vivienda = null) => {
     editMode.value = true
   } else {
     viviendaActual.value = { fotos: [] }
+    viviendaActual.value.vendedor = {
+      idUsuario: userStore.userId,
+      nombre: userStore.userName,
+      email: userStore.userEmail,
+      contrasena: "",
+      rol: userStore.userRol
+    }
     editMode.value = false
   }
   dialog.value = true
@@ -133,7 +152,7 @@ const subirImagen = async (vivienda) => {
   console.log('subirImagen', nuevasFotos.value)
   console.log('houseStore.idVivienda', vivienda.idVivienda)
   // console.log('profile.value.userId', profile.value.userId)
-  if (nuevasFotos.value[0] instanceof File) {
+  if (nuevasFotos.value != null && nuevasFotos.value[0] instanceof File) {
     console.log('entro a guardar')
     const formData = new FormData()
     formData.append('file', nuevasFotos.value[0])
@@ -152,11 +171,11 @@ const subirImagen = async (vivienda) => {
 
 const guardarVivienda = async () => {
   try {
+    subirImagen(viviendaActual.value)
     if (editMode.value) {
       // Actualizar vivienda existente
-      subirImagen(viviendaActual.value)
 
-      await axios.put(`http://localhost:8080/api/v1/vivienda/${viviendaActual.value.idVivienda}`, viviendaActual.value)
+      await axios.post(`http://localhost:8080/api/v1/vivienda/${viviendaActual.value.idVivienda}`, viviendaActual.value)
     } else {
       // Crear nueva vivienda
       await axios.post('http://localhost:8080/api/v1/vivienda/', viviendaActual.value)

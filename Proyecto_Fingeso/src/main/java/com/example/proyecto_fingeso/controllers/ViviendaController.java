@@ -1,6 +1,8 @@
 package com.example.proyecto_fingeso.controllers;
 
+import com.example.proyecto_fingeso.entities.Usuario;
 import com.example.proyecto_fingeso.entities.Vivienda;
+import com.example.proyecto_fingeso.services.UsuarioService;
 import com.example.proyecto_fingeso.services.ViviendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ public class ViviendaController {
 
     @Autowired
     ViviendaService serviceVivienda;
+    @Autowired
+    UsuarioService usuarioService;
 
     //obtiene todas las casas
     @GetMapping("/")
@@ -39,12 +43,14 @@ public class ViviendaController {
     //Guarda una vivienda en el sistema
     @PostMapping("/")
     public ResponseEntity<Vivienda> saveVivienda(@RequestBody Vivienda vivienda) {
+        Usuario usuario = usuarioService.getUsuarioById(vivienda.getVendedor().getIdUsuario());
+        vivienda.setVendedor(usuario);
         Vivienda viviendaNew = serviceVivienda.saveVivienda(vivienda);
         return ResponseEntity.ok(viviendaNew);
     }
 
     //Guarda una vivienda en el sistema
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<Vivienda> editVivienda(@PathVariable Long id, @RequestBody Vivienda vivienda) {
         Vivienda viviendaNew = serviceVivienda.editVivienda(id, vivienda);
         return ResponseEntity.ok(viviendaNew);
