@@ -68,10 +68,15 @@
   <script setup>
   import axios from 'axios'
 
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, inject } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useUserStore } from '@/stores/user'
+  import { useMessageStore } from '@/stores/message'
 
   const router = useRouter()
+  const userStore = useUserStore()
+  const messageStore = useMessageStore()
+  const toggleChat = inject('toggleChat')
 
   const propiedad = ref(null)
   const propiedades = ref([])
@@ -84,9 +89,10 @@
 
   const fetchPropiedades = async () => {
     try {
+      const id = parseInt(router.currentRoute.value.params.id) - 1
       const response = await axios.get('http://localhost:8080/api/v1/vivienda/')
       propiedades.value = response.data
-      propiedad.value = propiedades.value[0]
+      propiedad.value = propiedades.value[id]
       propiedad.value.caracteristicas = [
           propiedad.value.numeroDeHabitaciones + " Habitaciones",
           propiedad.value.numeroDeBanos + " Baños",
@@ -101,7 +107,6 @@
   onMounted(async () => {
     fetchPropiedades()
   })
-
 
   /*onMounted(async () => {
     // Aquí normalmente harías una llamada a tu API para obtener los detalles de la propiedad
@@ -143,10 +148,44 @@
   const contactarPropietario = () => {
     // Aquí puedes implementar la lógica para mostrar un formulario de contacto o abrir el correo electrónico
     console.log('Contactando al propietario...')
+    iniciarChat()
   }
 
   const realizarAccion = (accion) => {
     // Aquí puedes implementar la lógica para el proceso de compra o alquiler
     console.log(`Iniciando proceso de ${accion}...`)
+  }
+
+  const iniciarChat = async () => {
+    if (!userStore.isAuthenticated) {
+      router.push('/login')
+      return
+    }
+
+    try {
+      const chatExistente = await messageStore.buscarChatExistente(
+        userStore.userId,
+        propiedad.value.vendedor.idUsuario,
+        propiedad.value.idVivienda
+      )
+
+      if (chatExistente.length > 0) {
+        console.log("si hay")
+        messageStore.setCurrentChat(chatExistente)
+      } else {
+        console.log("no hay")
+        const nuevoChat = await messageStore.crearNuevoChat(
+          userStore.userId,
+          propiedad.value.vendedor.idUsuario,
+          propiedad.value.idVivienda,
+          'Hola!, Estoy interesado en esta propiedad'
+        )
+        messageStore.setCurrentChat(nuevoChat)
+      }
+
+      toggleChat() // Abre el ChatDrawer
+    } catch (error) {
+      console.error('Error al iniciar el chat:', error)
+    }
   }
   </script>

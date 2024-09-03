@@ -25,7 +25,7 @@
             </div>
             <v-select
               v-model="numeroHabitaciones"
-              :items="[1, 2, 3, 4, '5+']"
+              :items="[1, 2, 3, 4, 5]"
               label="Número de habitaciones"
             ></v-select>
             <v-btn color="primary" class="mt-4" @click="aplicarFiltros">Aplicar Filtros</v-btn>

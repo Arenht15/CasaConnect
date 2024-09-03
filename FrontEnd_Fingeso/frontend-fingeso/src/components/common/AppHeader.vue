@@ -5,7 +5,7 @@
       </template>
 
       <v-img
-        src="../assets/CasaConnectLogo.png"
+        src="../../assets/CasaConnectLogo.png"
         max-height="40"
         max-width="40"
         alt="Casa Connect Logo"

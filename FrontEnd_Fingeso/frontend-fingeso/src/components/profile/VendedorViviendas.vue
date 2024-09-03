@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <router-link to="/addHouse">
-      <v-btn color="secondary">Agregar Nueva Vivienda</v-btn>
+      <v-btn color="primary">Agregar Nueva Vivienda</v-btn>
     </router-link>
     <v-list density="compact" lines="one" slim>
       <v-list-item class="font-weight-bold" density="compact">
